@@ -3,12 +3,12 @@ package util;
 /**
  * Maintains a list of Objects.
  * 
- * @author Zoë Hausmann
+ * @author Zoe Hausmann
  */
 public class LinkedList {
-	/** First Node in the list */
+	/** Points to the first Node in the list. */
 	private Node head;
-	/** Last Node in the list */
+	/** Points to the last Node in the list. */
 	private Node tail;
 	/** Size of the list. */
 	private int size;
@@ -17,7 +17,9 @@ public class LinkedList {
 	 * Creates an empty list with head and tail pointers.
 	 */
 	public LinkedList() {
-		// TODO Auto-generated constructor stub
+		tail = new Node(null);
+		head = new Node(null, tail);
+		size = 0;
 	}
 
 	/**
@@ -26,7 +28,7 @@ public class LinkedList {
 	 * @param obj object to add to the list
 	 */
 	public void add(Object obj) {
-		
+		addLast(obj);
 	}
 	
 	/**
@@ -36,7 +38,22 @@ public class LinkedList {
 	 * @param obj object to add to the list
 	 */
 	public void add(int index, Object obj) {
-		
+		if (index < 0 || index > size)
+			throw new IndexOutOfBoundsException();
+
+		// Add to empty list
+		if (size == 0) {
+			head.next = new Node(obj);
+			tail = head.next;
+		} else {
+			Node temp = head;
+			for (int i = 0; i < index; i++)
+				temp = temp.next;
+			temp.setNext(new Node(obj, temp.next));
+			if (size == 1)
+				tail = temp.next;
+		}
+		size++;
 	}
 
 	/**
@@ -45,7 +62,12 @@ public class LinkedList {
 	 * @param obj object to add to the list
 	 */
 	public void addFirst(Object obj) {
-		
+		Node temp = new Node(obj);
+		temp.next = head.next;
+		head.next = temp;
+		if (size == 0)
+			tail = head.next;
+		size++;
 	}
 	
 	/**
@@ -54,25 +76,38 @@ public class LinkedList {
 	 * @param obj element to add to the list
 	 */
 	public void addLast(Object obj) {
-		
+		if (size == 0) {
+			head.next = new Node(obj);
+			tail = head.next;
+		} else {
+			tail.setNext(new Node(obj));
+			tail = tail.next;
+		}
+		size++;
 	}
 
 	/**
 	 * Returns the first element of the list.
 	 * 
 	 * @return the first element in the list
+	 * @throws IndexOutOfBoundsException if list is empty
 	 */
 	public Object getFirst() {
-		return null;
+		if (size == 0)
+			throw new IndexOutOfBoundsException();
+		return head.next.element;
 	}
 	
 	/**
 	 * Returns the last element of the list.
 	 * 
 	 * @return the last element of the list
+	 * @throws IndexOutOfBoundsException if list is empty
 	 */
 	public Object getLast() {
-		return null;
+		if (size == 0)
+			throw new IndexOutOfBoundsException();
+		return tail.element;
 	}
 	
 	/**
@@ -80,9 +115,16 @@ public class LinkedList {
 	 * 
 	 * @param index index of the object to get
 	 * @return the object at the given index
+	 * @throws IndexOutOfBoundsException if no element exists at the given index
 	 */
 	public Object get(int index) {
-		return null;
+		if (size == 0 || index < 0 || index >= size )
+			throw new IndexOutOfBoundsException();
+
+		Node temp = head.next;
+		for (int i = 0; i < index; i++)
+			temp = temp.next;
+		return temp.element;
 	}
 	
 	/**
@@ -90,27 +132,60 @@ public class LinkedList {
 	 *
 	 * @param index index of the element to remove
 	 * @return object that was removed
+	 * @throws IndexOutOfBoundsException if no element exists at the given index
 	 */
 	public Object remove(int index) {
-		return null;
+		if (size == 0 || index < 0 || index >= size)
+			throw new IndexOutOfBoundsException();
+
+		Object element;
+		// if size is one, remove only element
+		if (size == 1) {
+			element = head.next.element;
+			head.next = tail;
+			tail.next = null;
+		// else, traverse list and remove Node at index
+		} else {
+			Node temp = head;
+			for (int i = 0; i < index; i++)
+				temp = temp.next;
+			element = temp.next.element;
+			temp.next = temp.next.next;
+		}
+		size--;
+		return element;
 	}
 	
 	/**
 	 * Removes and returns the first element of the list.
 	 *
 	 * @return object that was removed
+	 * @throws IndexOutOfBoundsException if no element exists at the given index
 	 */
 	public Object removeFirst() {
-		return null;
+		Object element;
+		try {
+		 	element = remove(0);
+		} catch (IndexOutOfBoundsException e) {
+			throw new IndexOutOfBoundsException();
+		}
+		return element;
 	}
 	
 	/**
 	 * Removes and returns the first element of the list.
 	 *
 	 * @return object that was removed
+	 * @throws IndexOutOfBoundsException if no element exists at the given index
 	 */
 	public Object removeLast() {
-		return null;
+		Object element;
+		try {
+			element = remove(size - 1);
+		} catch (IndexOutOfBoundsException e) {
+			throw new IndexOutOfBoundsException();
+		}
+		return element;
 	}
 	
 	/**
@@ -120,9 +195,21 @@ public class LinkedList {
 	 * @param index index of the object to be set
 	 * @param obj new object
 	 * @return object that was replaced
+	 * @throws IndexOutOfBoundsException if no element exists at the given index
 	 */
 	public Object set(int index, Object obj) {
-		return null;
+		if (size == 0 || index < 0 || index >= size )
+			throw new IndexOutOfBoundsException();
+
+		Object element;
+		Node temp = head.next;
+		for (int i = 0; i < index; i++)
+			temp = temp.next;
+		element = temp.element;
+		temp.setElement(obj);
+		if (index == size - 1)
+			tail = temp;
+		return element;
 	}
 	
 	/**
@@ -131,7 +218,7 @@ public class LinkedList {
 	 * @return the number of elements in the list
 	 */
 	public int size() {
-		return 0;
+		return size;
 	}
 
 	
@@ -145,8 +232,17 @@ public class LinkedList {
 		Node next;
 
 		/**
+		 * Creates a new Node with the given element and next of null.
+		 * @param obj the element stored in the Node
+		 */
+		Node(Object obj) {
+			setElement(obj);
+			setNext(null);
+		}
+
+		/**
 		 * Creates a new Node with the given element and next node.
-		 * @param obj
+		 * @param obj the element stored in the Node
 		 */
 		Node(Object obj, Node next) {
 			setElement(obj);
