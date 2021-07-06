@@ -7,8 +7,7 @@ import org.junit.Test;
 
 /**
  * Tests LinkedList functionality.
- *
- * @author Zoe Hausmann
+ * @author Zoë Hausmann
  */
 public class LinkedListTest {
 	private final String str0 = "0"; // Test string object 0
@@ -26,18 +25,14 @@ public class LinkedListTest {
 	private LinkedList strList; // Test string list
 	private LinkedList intList; // Test integer list
 
-	/**
-	 * Creates two empty LinkedLists, one for Strings and one for ints.
-	 */
+	/** Creates two empty LinkedLists, one for Strings and one for ints. */
 	@Before
 	public void setUp() {
 		strList = new LinkedList();
 		intList = new LinkedList();
 	}
 
-	/**
-	 * Test method for LinkedList constructor.
-	 */
+	/** Test method for LinkedList constructor. */
 	@Test
 	public void testLinkedList() {
 		try {
@@ -48,9 +43,7 @@ public class LinkedListTest {
 		}
 	}
 
-	/**
-	 * Test method for add(obj).
-	 */
+	/** Test method for generic add. */
 	@Test
 	public void testAddGeneric() {
 		// Create empty lists
@@ -77,9 +70,7 @@ public class LinkedListTest {
 		assertEquals(2, intList.size());
 	}
 
-	/**
-	 * Test method for add(index, obj)).
-	 */
+	/** Test method for adding at an index. */
 	@Test
 	public void testAddAtIndex() {
 		// Create empty lists
@@ -144,9 +135,7 @@ public class LinkedListTest {
 		}
 	}
 
-	/**
-	 * Test method for addFirst.
-	 */
+	/** Test method for addFirst. */
 	@Test
 	public void testAddFirst() {
 		// Create empty lists
@@ -173,9 +162,7 @@ public class LinkedListTest {
 		assertEquals(2, intList.size());
 	}
 
-	/**
-	 * Test method for addLast.
-	 */
+	/** Test method for addLast. */
 	@Test
 	public void testAddLast() {
 		// Create empty lists
@@ -202,9 +189,7 @@ public class LinkedListTest {
 		assertEquals(2, intList.size());
 	}
 
-	/**
-	 * Test method for getFirst.
-	 */
+	/** Test method for getFirst. */
 	@Test
 	public void testGetFirst() {
 		// Create empty lists
@@ -257,9 +242,7 @@ public class LinkedListTest {
 		assertEquals(1, intList.size());
 	}
 
-	/**
-	 * Test method forgetLast.
-	 */
+	/** Test method forgetLast. */
 	@Test
 	public void testGetLast() {
 		// Create empty lists
@@ -312,9 +295,7 @@ public class LinkedListTest {
 		assertEquals(1, intList.size());
 	}
 
-	/**
-	 * Test method for get.
-	 */
+	/** Test method for get. */
 	@Test
 	public void testGet() {
 		// Create lists and checks that they are empty
@@ -369,9 +350,7 @@ public class LinkedListTest {
 		}
 	}
 
-	/**
-	 * Test method for remove.
-	 */
+	/** Test method for remove. */
 	@Test
 	public void testRemove() {
 		// Create empty lists
@@ -452,9 +431,7 @@ public class LinkedListTest {
 		assertEquals(0, intList.size());
 	}
 
-	/**
-	 * Test method for removeFirst.
-	 */
+	/** Test method for removeFirst. */
 	@Test
 	public void testRemoveFirst() {
 		// Create empty lists
@@ -497,9 +474,7 @@ public class LinkedListTest {
 		}
 	}
 
-	/**
-	 * Test method for removeLast.
-	 */
+	/** Test method for removeLast. */
 	@Test
 	public void testRemoveLast() {
 		// Create empty lists
@@ -542,9 +517,7 @@ public class LinkedListTest {
 		}
 	}
 
-	/**
-	 * Test method for set.
-	 */
+	/** Test method for set. */
 	@Test
 	public void testSet() {
 		// Create lists and checks that they are empty
@@ -624,9 +597,7 @@ public class LinkedListTest {
 		}
 	}
 
-	/**
-	 * Test method for testSize.
-	 */
+	/** Test method for testSize. */
 	@Test
 	public void testSize() {
 		try {

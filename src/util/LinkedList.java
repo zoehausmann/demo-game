@@ -1,9 +1,9 @@
 package util;
 
 /**
- * Maintains a list of Objects.
- * 
- * @author Zoe Hausmann
+ * Maintains a serial list of Objects.
+ * Supports adding, removing, getting, and setting objects in the list.
+ * @author Zoë Hausmann
  */
 public class LinkedList {
 	/** Points to the first Node in the list. */
@@ -13,9 +13,7 @@ public class LinkedList {
 	/** Size of the list. */
 	private int size;
 	
-	/**
-	 * Creates an empty list with head and tail pointers.
-	 */
+	/** Creates an empty list with head and tail pointers. */
 	public LinkedList() {
 		tail = new Node(null);
 		head = new Node(null, tail);
@@ -24,7 +22,6 @@ public class LinkedList {
 
 	/**
 	 * Adds an element to the end of the list.
-	 * 
 	 * @param obj object to add to the list
 	 */
 	public void add(Object obj) {
@@ -33,7 +30,6 @@ public class LinkedList {
 	
 	/**
 	 * Inserts an element at the given index.
-	 * 
 	 * @param index at which to add the object
 	 * @param obj object to add to the list
 	 */
@@ -58,7 +54,6 @@ public class LinkedList {
 
 	/**
 	 * Adds an element to the beginning of the list.
-	 * 
 	 * @param obj object to add to the list
 	 */
 	public void addFirst(Object obj) {
@@ -72,7 +67,6 @@ public class LinkedList {
 	
 	/**
 	 * Inserts an element at the end of the list.
-	 * 
 	 * @param obj element to add to the list
 	 */
 	public void addLast(Object obj) {
@@ -88,7 +82,6 @@ public class LinkedList {
 
 	/**
 	 * Returns the first element of the list.
-	 * 
 	 * @return the first element in the list
 	 * @throws IndexOutOfBoundsException if list is empty
 	 */
@@ -100,7 +93,6 @@ public class LinkedList {
 	
 	/**
 	 * Returns the last element of the list.
-	 * 
 	 * @return the last element of the list
 	 * @throws IndexOutOfBoundsException if list is empty
 	 */
@@ -112,7 +104,6 @@ public class LinkedList {
 	
 	/**
 	 * Returns the element at the given index
-	 * 
 	 * @param index index of the object to get
 	 * @return the object at the given index
 	 * @throws IndexOutOfBoundsException if no element exists at the given index
@@ -129,7 +120,6 @@ public class LinkedList {
 	
 	/**
 	 * Removes and returns the element at the given index.
-	 *
 	 * @param index index of the element to remove
 	 * @return object that was removed
 	 * @throws IndexOutOfBoundsException if no element exists at the given index
@@ -158,7 +148,6 @@ public class LinkedList {
 	
 	/**
 	 * Removes and returns the first element of the list.
-	 *
 	 * @return object that was removed
 	 * @throws IndexOutOfBoundsException if no element exists at the given index
 	 */
@@ -174,7 +163,6 @@ public class LinkedList {
 	
 	/**
 	 * Removes and returns the first element of the list.
-	 *
 	 * @return object that was removed
 	 * @throws IndexOutOfBoundsException if no element exists at the given index
 	 */
@@ -191,7 +179,6 @@ public class LinkedList {
 	/**
 	 * Replaces the element at the given index with the given object.
 	 * Returns the object that was replaced.
-	 * 
 	 * @param index index of the object to be set
 	 * @param obj new object
 	 * @return object that was replaced
@@ -214,7 +201,6 @@ public class LinkedList {
 	
 	/**
 	 * Returns the number of elements in the list.
-	 * 
 	 * @return the number of elements in the list
 	 */
 	public int size() {
@@ -222,9 +208,7 @@ public class LinkedList {
 	}
 
 	
-	/**
-	 * Single node in a linked list.
-	 */
+	/** Single node in a linked list. */
 	private class Node {
 		/** Element contained in the Node */
 		Object element;
@@ -251,7 +235,6 @@ public class LinkedList {
 		
 		/**
 		 * Sets the Node's element to the given object.
-		 * 
 		 * @param obj element to be set
 		 */
 		void setElement(Object obj) {
@@ -260,7 +243,6 @@ public class LinkedList {
 		
 		/**
 		 * Sets this Node's next field to point to the given Node.
-		 * 
 		 * @param next Node to point to
 		 */
 		void setNext(Node next) {
