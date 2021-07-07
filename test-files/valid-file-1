@@ -1,3 +1,9 @@
 Alpha,NATO Alphabet,0,1,2,3,4,5,test-files/test-image.png
 Bravo,NATO Alphabet,1,2,3,4,5,0,test-files/test-image.png
 Charlie,NATO Alphabet,5,4,3,2,1,0,test-files/test-image.png
+Delta,NATO Alphabet,0,0,0,0,0,0,test-files/test-image.png
+Echo,NATO Alphabet,1,1,1,1,1,1,test-files/test-image.png
+Foxtrot,NATO Alphabet,2,2,2,2,2,2,test-files/test-image.png
+Golf,NATO Alphabet,3,3,3,3,3,3,test-files/test-image.png
+Hotel,NATO Alphabet,4,4,4,4,4,4,test-files/test-image.png
+India,NATO Alphabet,5,5,5,5,5,5,test-files/test-image.png

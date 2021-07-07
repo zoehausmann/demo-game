@@ -38,10 +38,16 @@ public class ReadCharacterTest {
         try {
             ReadCharacter.main(charList, file1);
         } catch (Exception e) { fail(); }
-        assertEquals(3, charList.size());
+        assertEquals(9, charList.size());
         assertEquals("Alpha", charList.get(0).getName());
         assertEquals("Bravo", charList.get(1).getName());
         assertEquals("Charlie", charList.get(2).getName());
+        assertEquals("Delta", charList.get(3).getName());
+        assertEquals("Echo", charList.get(4).getName());
+        assertEquals("Foxtrot", charList.get(5).getName());
+        assertEquals("Golf", charList.get(6).getName());
+        assertEquals("Hotel", charList.get(7).getName());
+        assertEquals("India", charList.get(8).getName());
 
 
 
