@@ -22,22 +22,22 @@ public class LinkedListTest {
 	private final int int3 = 3; // Test integer object 3
 	private final int int4 = 4; // Test integer object 4
 	private final int int5 = 5; // Test integer object 5
-	private LinkedList strList; // Test string list
-	private LinkedList intList; // Test integer list
+	private LinkedList<String> strList; // Test string list
+	private LinkedList<Integer> intList; // Test integer list
 
 	/** Creates two empty LinkedLists, one for Strings and one for ints. */
 	@Before
 	public void setUp() {
-		strList = new LinkedList();
-		intList = new LinkedList();
+		strList = new LinkedList<>();
+		intList = new LinkedList<>();
 	}
 
 	/** Test method for LinkedList constructor. */
 	@Test
 	public void testLinkedList() {
 		try {
-			strList = new LinkedList();
-			intList = new LinkedList();
+			strList = new LinkedList<>();
+			intList = new LinkedList<>();
 		} catch (Exception e) {
 			fail(e.getMessage());
 		}
@@ -55,7 +55,7 @@ public class LinkedListTest {
 		strList.add(str0);
 		intList.add(int0);
 		assertEquals(str0, strList.get(0));
-		assertEquals(int0, intList.get(0));
+		assertEquals(int0, (int) intList.get(0));
 		assertEquals(1, strList.size());
 		assertEquals(1, intList.size());
 
@@ -63,9 +63,9 @@ public class LinkedListTest {
 		strList.add(str1);
 		intList.add(int1);
 		assertEquals(str0, strList.get(0));
-		assertEquals(int0, intList.get(0));
+		assertEquals(int0, (int) intList.get(0));
 		assertEquals(str1, strList.get(1));
-		assertEquals(int1, intList.get(1));
+		assertEquals(int1, (int) intList.get(1));
 		assertEquals(2, strList.size());
 		assertEquals(2, intList.size());
 	}
@@ -147,7 +147,7 @@ public class LinkedListTest {
 		strList.addFirst(str1);
 		intList.addFirst(int1);
 		assertEquals(str1, strList.get(0));
-		assertEquals(int1, intList.get(0));
+		assertEquals(int1, (int) intList.get(0));
 		assertEquals(1, strList.size());
 		assertEquals(1, intList.size());
 
@@ -155,9 +155,9 @@ public class LinkedListTest {
 		strList.addFirst(str0);
 		intList.addFirst(int0);
 		assertEquals(str0, strList.get(0));
-		assertEquals(int0, intList.get(0));
+		assertEquals(int0, (int) intList.get(0));
 		assertEquals(str1, strList.get(1));
-		assertEquals(int1, intList.get(1));
+		assertEquals(int1, (int) intList.get(1));
 		assertEquals(2, strList.size());
 		assertEquals(2, intList.size());
 	}
@@ -174,7 +174,7 @@ public class LinkedListTest {
 		strList.addLast(str0);
 		intList.addLast(int0);
 		assertEquals(str0, strList.get(0));
-		assertEquals(int0, intList.get(0));
+		assertEquals(int0, (int) intList.get(0));
 		assertEquals(1, strList.size());
 		assertEquals(1, intList.size());
 
@@ -182,9 +182,9 @@ public class LinkedListTest {
 		strList.addLast(str1);
 		intList.addLast(int1);
 		assertEquals(str0, strList.get(0));
-		assertEquals(int0, intList.get(0));
+		assertEquals(int0, (int) intList.get(0));
 		assertEquals(str1, strList.get(1));
-		assertEquals(int1, intList.get(1));
+		assertEquals(int1, (int) intList.get(1));
 		assertEquals(2, strList.size());
 		assertEquals(2, intList.size());
 	}
@@ -318,9 +318,9 @@ public class LinkedListTest {
 		assertEquals(str1, strList.get(1));
 		assertEquals(str2, strList.get(2));
 		assertEquals(strList.size(), 3);
-		assertEquals(int0, intList.get(0));
-		assertEquals(int1, intList.get(1));
-		assertEquals(int2, intList.get(2));
+		assertEquals(int0, (int) intList.get(0));
+		assertEquals(int1, (int) intList.get(1));
+		assertEquals(int2, (int) intList.get(2));
 		assertEquals(intList.size(), 3);
 
 		// Get out of bounds
@@ -375,10 +375,10 @@ public class LinkedListTest {
 		assertEquals(str1, strList.get(1));
 		assertEquals(str2, strList.get(2));
 		assertEquals(str3, strList.get(3));
-		assertEquals(int0, intList.get(0));
-		assertEquals(int1, intList.get(1));
-		assertEquals(int2, intList.get(2));
-		assertEquals(int3, intList.get(3));
+		assertEquals(int0, (int) intList.get(0));
+		assertEquals(int1, (int) intList.get(1));
+		assertEquals(int2, (int) intList.get(2));
+		assertEquals(int3, (int) intList.get(3));
 
 		// Remove out of bounds
 		try {
@@ -550,7 +550,7 @@ public class LinkedListTest {
 		assertEquals(strList.get(1), str1);
 		// assertEquals(strList.getLast(), str2);
 		assertEquals(intList.getFirst(), int0);
-		assertEquals(intList.get(1), int1);
+		assertEquals(int1, (int) intList.get(1));
 		assertEquals(intList.getLast(), int2);
 
 		// Create new lists and try set on empty lists
@@ -602,8 +602,8 @@ public class LinkedListTest {
 	public void testSize() {
 		try {
 			// Create lists and check that they are empty
-			strList = new LinkedList();
-			intList = new LinkedList();
+			strList = new LinkedList<>();
+			intList = new LinkedList<>();
 			assertEquals(strList.size(), 0);
 			assertEquals(intList.size(), 0);
 

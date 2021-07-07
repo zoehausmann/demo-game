@@ -5,18 +5,20 @@ package util;
  * Supports adding, removing, getting, and setting objects in the list.
  * @author Zoë Hausmann
  */
-public class LinkedList {
+public class LinkedList<E> {
 	/** Points to the first Node in the list. */
-	private Node head;
+	private final Node<E> head;
 	/** Points to the last Node in the list. */
-	private Node tail;
+	private Node<E> tail;
 	/** Size of the list. */
 	private int size;
-	
-	/** Creates an empty list with head and tail pointers. */
+
+	/**
+	 * Creates a new empty list for objects of type E.
+	 */
 	public LinkedList() {
-		tail = new Node(null);
-		head = new Node(null, tail);
+		tail = new Node<>(null);
+		head = new Node<>(null, tail);
 		size = 0;
 	}
 
@@ -24,7 +26,7 @@ public class LinkedList {
 	 * Adds an element to the end of the list.
 	 * @param obj object to add to the list
 	 */
-	public void add(Object obj) {
+	public void add(E obj) {
 		addLast(obj);
 	}
 	
@@ -33,19 +35,19 @@ public class LinkedList {
 	 * @param index at which to add the object
 	 * @param obj object to add to the list
 	 */
-	public void add(int index, Object obj) {
+	public void add(int index, E obj) {
 		if (index < 0 || index > size)
 			throw new IndexOutOfBoundsException();
 
 		// Add to empty list
 		if (size == 0) {
-			head.next = new Node(obj);
+			head.next = new Node<>(obj);
 			tail = head.next;
 		} else {
-			Node temp = head;
+			Node<E> temp = head;
 			for (int i = 0; i < index; i++)
 				temp = temp.next;
-			temp.setNext(new Node(obj, temp.next));
+			temp.setNext(new Node<>(obj, temp.next));
 			if (size == 1)
 				tail = temp.next;
 		}
@@ -56,8 +58,8 @@ public class LinkedList {
 	 * Adds an element to the beginning of the list.
 	 * @param obj object to add to the list
 	 */
-	public void addFirst(Object obj) {
-		Node temp = new Node(obj);
+	public void addFirst(E obj) {
+		Node<E> temp = new Node<>(obj);
 		temp.next = head.next;
 		head.next = temp;
 		if (size == 0)
@@ -69,12 +71,12 @@ public class LinkedList {
 	 * Inserts an element at the end of the list.
 	 * @param obj element to add to the list
 	 */
-	public void addLast(Object obj) {
+	public void addLast(E obj) {
 		if (size == 0) {
-			head.next = new Node(obj);
+			head.next = new Node<>(obj);
 			tail = head.next;
 		} else {
-			tail.setNext(new Node(obj));
+			tail.setNext(new Node<>(obj));
 			tail = tail.next;
 		}
 		size++;
@@ -108,11 +110,11 @@ public class LinkedList {
 	 * @return the object at the given index
 	 * @throws IndexOutOfBoundsException if no element exists at the given index
 	 */
-	public Object get(int index) {
+	public E get(int index) {
 		if (size == 0 || index < 0 || index >= size )
 			throw new IndexOutOfBoundsException();
 
-		Node temp = head.next;
+		Node<E> temp = head.next;
 		for (int i = 0; i < index; i++)
 			temp = temp.next;
 		return temp.element;
@@ -136,7 +138,7 @@ public class LinkedList {
 			tail.next = null;
 		// else, traverse list and remove Node at index
 		} else {
-			Node temp = head;
+			Node<E> temp = head;
 			for (int i = 0; i < index; i++)
 				temp = temp.next;
 			element = temp.next.element;
@@ -184,12 +186,11 @@ public class LinkedList {
 	 * @return object that was replaced
 	 * @throws IndexOutOfBoundsException if no element exists at the given index
 	 */
-	public Object set(int index, Object obj) {
+	public E set(int index, E obj) {
 		if (size == 0 || index < 0 || index >= size )
 			throw new IndexOutOfBoundsException();
-
-		Object element;
-		Node temp = head.next;
+		E element;
+		Node<E> temp = head.next;
 		for (int i = 0; i < index; i++)
 			temp = temp.next;
 		element = temp.element;
@@ -207,19 +208,18 @@ public class LinkedList {
 		return size;
 	}
 
-	
 	/** Single node in a linked list. */
-	private class Node {
+	private static class Node<E> {
 		/** Element contained in the Node */
-		Object element;
+		E element;
 		/** The next Node in the list */
-		Node next;
+		Node<E> next;
 
 		/**
 		 * Creates a new Node with the given element and next of null.
 		 * @param obj the element stored in the Node
 		 */
-		Node(Object obj) {
+		Node(E obj) {
 			setElement(obj);
 			setNext(null);
 		}
@@ -228,7 +228,7 @@ public class LinkedList {
 		 * Creates a new Node with the given element and next node.
 		 * @param obj the element stored in the Node
 		 */
-		Node(Object obj, Node next) {
+		Node(E obj, Node<E> next) {
 			setElement(obj);
 			setNext(next);
 		}
@@ -237,7 +237,7 @@ public class LinkedList {
 		 * Sets the Node's element to the given object.
 		 * @param obj element to be set
 		 */
-		void setElement(Object obj) {
+		void setElement(E obj) {
 			this.element = obj;
 		}
 		
@@ -245,7 +245,7 @@ public class LinkedList {
 		 * Sets this Node's next field to point to the given Node.
 		 * @param next Node to point to
 		 */
-		void setNext(Node next) {
+		void setNext(Node<E> next) {
 			this.next = next;
 		}
 	}
