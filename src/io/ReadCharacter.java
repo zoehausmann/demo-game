@@ -19,21 +19,21 @@ public class ReadCharacter {
      * @param filename name of the file with character data
      * @throws Exception if an error occurs while reading character data from file
      */
-    public static void main(LinkedList charList, String filename) throws Exception {
+    public static void main(LinkedList<GameCharacter> charList, String filename) throws Exception {
         try {
             // Check that file exists
             File file = new File(filename);
             Scanner in = new Scanner(file);
             // Read file in line by line
-            String line = in.nextLine();
+            String line;
             while(in.hasNextLine()) {
+                line = in.nextLine();
                 // Try to create a new character for each line
                 GameCharacter temp;
                 try {
                     temp = validateCharacter(line);
                 } catch (Exception e) { throw new Exception(e.getMessage()); }
                 charList.add(temp);
-                line = in.nextLine();
             }
         } catch (Exception e) { throw new Exception(e.getMessage()); }
     }
@@ -55,6 +55,7 @@ public class ReadCharacter {
         try { in = new Scanner(data); } catch (Exception e) {
             throw new Exception("Character could not be created.");
         }
+        in.useDelimiter(",");
 
         // Get character name
         String name = in.next();    // Get character name
