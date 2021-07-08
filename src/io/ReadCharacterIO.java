@@ -11,7 +11,7 @@ import java.util.Scanner;
  *
  * @author Zoë Hausmann
  */
-public class ReadCharacter {
+public class ReadCharacterIO {
     /**
      * Reads in character data from file and adds it to the given character list.
      *
