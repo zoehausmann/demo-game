@@ -1,25 +1,44 @@
 package character;
 
+import gameplay.Move;
+
 /**
  * Maintains the data for a single in-game character.
  * @author Zoë Hausmann
  */
 public class GameCharacter {
+    // CHARACTER STAT TYPES
+    /** Types of character stats */
+    public enum Stat {
+        STRENGTH,       // ATTACKER - amount of HP dealt per attack
+        DEXTERITY,      // DEFENDER - reduction of damage taken from other player's attacks
+        CONSTITUTION,   // DEFENDER - increase in starting HP
+        INTELLIGENCE,   // ATTACKER - likelihood to repeat moves
+        WISDOM,         // DEFENDER - knowledge of likelihood of move to be an attack
+        CHARISMA;       // DEFENDER - increase number of turns
+    }
+
+    // CONSTANTS
     /** Character name */
-    private String name;
+    private static String name;
     /** Character origin */
-    private String origin;
-    /** Character's strength */
-    int[] stats;
-    /** Source file for character's picture */
-    private String profile;
+    private static String origin;
+    /** Character's integer stats */
+    private static int[] stats;
+    /** Source file for character's profile picture */
+    private String pfp;
     /** Character's starting HP */
     private static int charHP;
-    /** Character's current HP */
-    private int hp;
-    /** Starting HP for any character */
+    /** Default character starting HP */
     private final int BASE_HP = 1000;
 
+    // VARIABLES
+    /** Attacker's move combination */
+    private Move[] attackPattern;
+    /** Character's current HP */
+    private int hp;
+
+    // CONSTRUCTORS
     /**
      * Creates a new character
      * @param name character's name
@@ -30,6 +49,7 @@ public class GameCharacter {
      * @param ntl character's intelligence
      * @param wis character's wisdom
      * @param chr character's charisma
+     * @param file file path to character's profile pic
      */
     public GameCharacter(String name, String origin,
                          int str, int dex, int con,
@@ -37,10 +57,11 @@ public class GameCharacter {
         setName(name);
         setOrigin(origin);
         stats = new int[]{str, dex, con, ntl, wis, chr};
-        setProfile(file);
+        setPfp(file);
         charHP = BASE_HP + get(Stat.STRENGTH); // Calculates character's starting HP
     }
 
+    // GETTERS AND SETTERS
     /**
      * Sets the Character's name.
      * @param name Character's name
@@ -57,9 +78,7 @@ public class GameCharacter {
      * Sets the location of the character's picture file.
      * @param pic location of the file for the character's picture
      */
-    private void setProfile(String pic) {
-        this.profile = pic;
-    }
+    private void setPfp(String pic) { this.pfp = pic; }
 
     /**
      * Returns character's name.
@@ -100,20 +119,12 @@ public class GameCharacter {
         hp = charHP;
     }
 
+    // METHODS
     /**
      * Deducts from character's in-game hp
      * @param damage amount of damage to deduct from hp
      */
     public void deductHP(int damage) {
         hp -= damage;
-    }
-
-    public enum Stat {
-        STRENGTH, // amount of HP dealt per attack
-        DEXTERITY, // probability of evading?
-        CONSTITUTION, // starting HP
-        INTELLIGENCE, // ??
-        WISDOM, // predict other moves?
-        CHARISMA // reduction of damage taken from other player
     }
 }

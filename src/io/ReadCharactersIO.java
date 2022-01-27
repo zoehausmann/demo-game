@@ -2,7 +2,6 @@ package io;
 
 import character.GameCharacter;
 import util.LinkedList;
-
 import java.io.File;
 import java.util.Scanner;
 
@@ -11,7 +10,7 @@ import java.util.Scanner;
  *
  * @author Zoë Hausmann
  */
-public class ReadCharacterIO {
+public class ReadCharactersIO {
     /**
      * Reads in character data from file and adds it to the given character list.
      *
@@ -19,7 +18,7 @@ public class ReadCharacterIO {
      * @param filename name of the file with character data
      * @throws Exception if an error occurs while reading character data from file
      */
-    public static void main(LinkedList<GameCharacter> charList, String filename) throws Exception {
+    public static LinkedList<GameCharacter> readCharacters(LinkedList<GameCharacter> charList, String filename) throws Exception {
         try {
             // Check that file exists
             File file = new File(filename);
@@ -36,6 +35,7 @@ public class ReadCharacterIO {
                 charList.add(temp);
             }
         } catch (Exception e) { throw new Exception(e.getMessage()); }
+        return charList;
     }
 
     /**
@@ -47,7 +47,7 @@ public class ReadCharacterIO {
      * @return new GameCharacter created from file data
      * @throws Exception if error occurs creating character
      */
-    public static GameCharacter validateCharacter(String data) throws Exception {
+    private static GameCharacter validateCharacter(String data) throws Exception {
         // Create temporary character
         GameCharacter newChar;
         // Create scanner to read character data
@@ -78,5 +78,4 @@ public class ReadCharacterIO {
         in.close();
         return newChar;
     }
-
 }

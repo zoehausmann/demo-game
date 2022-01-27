@@ -8,17 +8,11 @@ import util.LinkedList;
 import static org.junit.Assert.*;
 
 /**
- * Tests ReadCharacterIO functionality.
+ * Tests ReadCharactersIO functionality.
  * @author Zoë Hausmann
  */
-public class ReadCharacterIOTest {
+public class ReadCharactersIOTest {
     private LinkedList<GameCharacter> charList; // List for storing newly created characters
-    private final String invalidFile = "a";
-    private final String file1 = "test-files/valid-file-1";
-    private final String file2 = "test-files/invalid-file-1";
-    private final String file3 = "test-files/invalid-file-2";
-    private final String file4 = "test-files/invalid-file-3";
-    private final String file5 = "test-files/invalid-file-4";
 
     /**
      * Resets character list.
@@ -29,14 +23,15 @@ public class ReadCharacterIOTest {
     }
 
     /**
-     * Tests ReadCharacterIO functionality (and indirectly tests validateCharacter).
+     * Tests ReadCharactersIO functionality (and indirectly tests validateCharacter).
      */
     @Test
     public void readValidCharacterFile() {
         // Valid character file
         setUp();
         try {
-            ReadCharacterIO.main(charList, file1);
+            String validFile = "test-files/valid-file";
+            ReadCharactersIO.readCharacters(charList, validFile);
         } catch (Exception e) { fail(); }
         assertEquals(9, charList.size());
         assertEquals("Alpha", charList.get(0).getName());
@@ -58,7 +53,8 @@ public class ReadCharacterIOTest {
     public void readInvalidFilePath() {
         setUp();
         try {
-            ReadCharacterIO.main(charList, invalidFile);
+            String invalidFile = "a";
+            ReadCharactersIO.readCharacters(charList, invalidFile);
             fail();
         } catch (Exception e) {
             // pass
@@ -74,17 +70,17 @@ public class ReadCharacterIOTest {
         // File with invalid stat values (stat < 0)
         setUp();
         try {
-            ReadCharacterIO.main(charList, file2);
+            ReadCharactersIO.readCharacters(charList, "test-files/invalid-file-1");
             fail();
         } catch (Exception e) {
             // pass
         }
         assertEquals(0, charList.size());
 
-        // File with invalid stat values (stat > 0)
+        // File with invalid stat values (stat > 5)
         setUp();
         try {
-            ReadCharacterIO.main(charList, file2);
+            ReadCharactersIO.readCharacters(charList, "test-files/invalid-file-2");
             fail();
         } catch (Exception f) {
             // pass
@@ -98,8 +94,9 @@ public class ReadCharacterIOTest {
     @Test
     public void readIncompleteFile() {
         setUp();
+        // File with too few stat values
         try {
-            ReadCharacterIO.main(charList, file3);
+            ReadCharactersIO.readCharacters(charList, "test-files/invalid-file-3");
             fail();
         } catch (Exception e) {
             // pass
@@ -114,12 +111,11 @@ public class ReadCharacterIOTest {
     public void readExtraFile() {
         setUp();
         try {
-            ReadCharacterIO.main(charList, file4);
+            ReadCharactersIO.readCharacters(charList, "test-files/invalid-file-4");
             fail();
         } catch (Exception e) {
             // pass
         }
         assertEquals(0, charList.size());
     }
-
 }
