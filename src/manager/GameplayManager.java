@@ -71,10 +71,6 @@ public class GameplayManager {
      */
     public void setDefender(GameCharacter character) { this.defender = character; }
 
-    public gameplay.Move[] getAttackPattern() {
-        return att
-    }
-
     // GAMEPLAY
     /**
      * Starts the round and manages all subsequent gameplay.
@@ -84,12 +80,34 @@ public class GameplayManager {
         Board board = new Board(turns, moves);
         // TODO: set up UI - GameplayUIManager(attacker, defender, turns, moves);
 
+        // TODO: Prompt defender to choose pattern
+        // private Move[] attackPattern;
+
+        // TODO: loop for each turn
+        // for int t = 0, t < turns; t++)
+        //   takeTurn
 
     }
 
     private void takeTurn() {
+        // INPUT
+        // Prompt defender to choose defense pattern
+        // User enters move
+        // Try/catch
 
+        // EXECUTE
+        // Make array of moves
+        // Calculate number of successful moves
+        // Calculate number of partially successful moves
+        // Calculate damage dealt by attacker
+
+        // Set spaces in Board
+        // Set results colors in board (from successes)
+        // Deduct damage
+        // Report damage dealt/taken
     }
+
+
     /**
      * Returns the number of partially successful moves.
      * @return the number of partially successful moves

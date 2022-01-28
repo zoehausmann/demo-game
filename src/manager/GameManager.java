@@ -75,7 +75,7 @@ public class GameManager {
             printMenu();                        // Print main menu
             choice = in.next();                 // Wait for user input
             choice.toUpperCase();               // Convert to upper case
-
+/**
             switch (choice) {
                 case "N" -> newGame();           // If user chose N, start new game
                 case "H": // howToPlay();        // Go to "How to Play" menu
@@ -89,6 +89,7 @@ public class GameManager {
                     break;
                 default -> printInvalid();        // Else, print invalid message
             }
+ */
         } while ( !choice.equals("E") );        // Until user chooses to exit:
     }
 
@@ -98,7 +99,12 @@ public class GameManager {
      * with given character and gameplay choices.
      */
     private static void newGame() {
-        LinkedList<GameCharacter> defaultCharList = ReadCharactersIO();
+        ReadCharactersIO io = new ReadCharactersIO();
+        try {
+        LinkedList<GameCharacter> defaultCharList = io.readCharacters("file");
+        } catch( Exception e) {
+          // TODO
+        }
         // Character selection
         // Number of turns
         // Number of moves

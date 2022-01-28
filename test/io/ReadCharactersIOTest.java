@@ -31,7 +31,7 @@ public class ReadCharactersIOTest {
         setUp();
         try {
             String validFile = "test-files/valid-file";
-            ReadCharactersIO.readCharacters(charList, validFile);
+            ReadCharactersIO.readCharacters(validFile);
         } catch (Exception e) { fail(); }
         assertEquals(9, charList.size());
         assertEquals("Alpha", charList.get(0).getName());
@@ -54,7 +54,7 @@ public class ReadCharactersIOTest {
         setUp();
         try {
             String invalidFile = "a";
-            ReadCharactersIO.readCharacters(charList, invalidFile);
+            ReadCharactersIO.readCharacters(invalidFile);
             fail();
         } catch (Exception e) {
             // pass
@@ -70,7 +70,7 @@ public class ReadCharactersIOTest {
         // File with invalid stat values (stat < 0)
         setUp();
         try {
-            ReadCharactersIO.readCharacters(charList, "test-files/invalid-file-1");
+            ReadCharactersIO.readCharacters("test-files/invalid-file-1");
             fail();
         } catch (Exception e) {
             // pass
@@ -80,7 +80,7 @@ public class ReadCharactersIOTest {
         // File with invalid stat values (stat > 5)
         setUp();
         try {
-            ReadCharactersIO.readCharacters(charList, "test-files/invalid-file-2");
+            ReadCharactersIO.readCharacters("test-files/invalid-file-2");
             fail();
         } catch (Exception f) {
             // pass
@@ -96,7 +96,7 @@ public class ReadCharactersIOTest {
         setUp();
         // File with too few stat values
         try {
-            ReadCharactersIO.readCharacters(charList, "test-files/invalid-file-3");
+            ReadCharactersIO.readCharacters("test-files/invalid-file-3");
             fail();
         } catch (Exception e) {
             // pass
@@ -111,7 +111,7 @@ public class ReadCharactersIOTest {
     public void readExtraFile() {
         setUp();
         try {
-            ReadCharactersIO.readCharacters(charList, "test-files/invalid-file-4");
+            ReadCharactersIO.readCharacters("test-files/invalid-file-4");
             fail();
         } catch (Exception e) {
             // pass

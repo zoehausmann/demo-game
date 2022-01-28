@@ -1,7 +1,7 @@
 package gameplay;
 
 /**
- * List of all possible action options.
+ * Possible Action choices for each Move.
  * @author Zoë Hausmann
  */
 public enum Action {

@@ -14,11 +14,12 @@ public class ReadCharactersIO {
     /**
      * Reads in character data from file and adds it to the given character list.
      *
-     * @param charList in-game list of characters
      * @param filename name of the file with character data
      * @throws Exception if an error occurs while reading character data from file
      */
-    public static LinkedList<GameCharacter> readCharacters(LinkedList<GameCharacter> charList, String filename) throws Exception {
+    public static LinkedList<GameCharacter> readCharacters(String filename) throws Exception {
+        // Create new empty list to store characters
+        LinkedList<GameCharacter> charList = new LinkedList<>();
         try {
             // Check that file exists
             File file = new File(filename);

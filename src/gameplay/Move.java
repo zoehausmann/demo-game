@@ -9,8 +9,6 @@ import manager.GameManager;
  */
 public class Move {
     // VARIABLES
-    /** Attacking character */
-    private GameCharacter attacker;
     /** Defending character */
     private GameCharacter defender;
     /** Turn number (row) */
@@ -20,13 +18,11 @@ public class Move {
 
     /**
      * Creates a new instance of Move to track one space on the board
-     * @param attacker
-     * @param attAction
-     * @param defender
-     * @param defAction
+     * @param defender defending character (in order to
+     * @param attack
+     * @param defense
      */
-    public void Move(GameCharacter attacker, Action attAction,
-                     GameCharacter defender, Action defAction) {
+    public void Move(GameCharacter defender, Action attack, Action defense) {
     }
 
     public boolean isSuccess(Action attAction, Action defAction) {
@@ -41,10 +37,13 @@ public class Move {
         return false;
     };
     public int calcDamage() {
-        // TODO
+        // TODO calculate the damage dealt by the attacker on this move
         return 0;
     }
 
-    // TODO getPati
+    public int[] returnColor() {
+        // TODO returns the color of the space
+        return null;
+    }
 
 }
