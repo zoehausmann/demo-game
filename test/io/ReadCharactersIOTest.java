@@ -1,6 +1,5 @@
 package io;
 
-import io.ReadCharactersIO;
 import character.GameCharacter;
 import org.junit.Before;
 import org.junit.Test;
@@ -13,14 +12,14 @@ import static org.junit.Assert.*;
  * @author Zoë Hausmann
  */
 public class ReadCharactersIOTest {
-    private ArrayList<GameCharacter> charList; // List for storing newly created characters
+    private ArrayList<GameCharacter> characterList; // List for storing newly created characters
 
     /**
      * Resets character list.
      */
     @Before
     public void setUp() {
-        charList = new ArrayList<>();
+        characterList = new ArrayList<>();
     }
 
     /**
@@ -32,18 +31,18 @@ public class ReadCharactersIOTest {
         setUp();
         try {
             String validFile = "test-files/valid-file-1";
-            charList = ReadCharactersIO.readCharacters(validFile);
+            characterList = ReadCharactersIO.readCharacters(validFile);
         } catch (Exception e) { fail(); }
-        assertEquals(9, charList.size());
-        assertEquals("Alpha", (charList.get(0)).getName());
-        assertEquals("Bravo", charList.get(1).getName());
-        assertEquals("Charlie", charList.get(2).getName());
-        assertEquals("Delta", charList.get(3).getName());
-        assertEquals("Echo", charList.get(4).getName());
-        assertEquals("Foxtrot", charList.get(5).getName());
-        assertEquals("Golf", charList.get(6).getName());
-        assertEquals("Hotel", charList.get(7).getName());
-        assertEquals("India", charList.get(8).getName());
+        assertEquals(9, characterList.size());
+        assertEquals("Alpha", (characterList.get(0)).getName());
+        assertEquals("Bravo", characterList.get(1).getName());
+        assertEquals("Charlie", characterList.get(2).getName());
+        assertEquals("Delta", characterList.get(3).getName());
+        assertEquals("Echo", characterList.get(4).getName());
+        assertEquals("Foxtrot", characterList.get(5).getName());
+        assertEquals("Golf", characterList.get(6).getName());
+        assertEquals("Hotel", characterList.get(7).getName());
+        assertEquals("India", characterList.get(8).getName());
 
     }
 
@@ -60,7 +59,7 @@ public class ReadCharactersIOTest {
         } catch (Exception e) {
             // pass
         }
-        assertEquals(0, charList.size());
+        assertEquals(0, characterList.size());
     }
 
     /**
@@ -76,7 +75,7 @@ public class ReadCharactersIOTest {
         } catch (Exception e) {
             // pass
         }
-        assertEquals(0, charList.size());
+        assertEquals(0, characterList.size());
 
         // File with invalid stat values (stat > 5)
         setUp();
@@ -86,7 +85,7 @@ public class ReadCharactersIOTest {
         } catch (Exception f) {
             // pass
         }
-        assertEquals(0, charList.size());
+        assertEquals(0, characterList.size());
     }
 
     /**
@@ -102,7 +101,7 @@ public class ReadCharactersIOTest {
         } catch (Exception e) {
             // pass
         }
-        assertEquals(0, charList.size());
+        assertEquals(0, characterList.size());
     }
 
     /**
@@ -117,6 +116,6 @@ public class ReadCharactersIOTest {
         } catch (Exception e) {
             // pass
         }
-        assertEquals(0, charList.size());
+        assertEquals(0, characterList.size());
     }
 }
