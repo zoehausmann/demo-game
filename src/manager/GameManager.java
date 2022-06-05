@@ -2,7 +2,7 @@ package manager;
 
 import character.GameCharacter;
 import io.ReadCharactersIO;
-import util.LinkedList;
+import java.util.ArrayList;
 
 import java.util.Scanner;
 
@@ -19,9 +19,9 @@ public class GameManager {
 
     // VARIABLES
     /** List of default characters */
-    LinkedList<GameCharacter> defaultCharList;
+    ArrayList<GameCharacter> defaultCharList;
     /** List of user-created characters */
-    LinkedList<GameCharacter> userCharList;
+    ArrayList<GameCharacter> userCharList;
 
     // GAME MANAGER SINGLETON PATTERN
     /** Single instance of GameManager **/
@@ -101,7 +101,7 @@ public class GameManager {
     private static void newGame() {
         ReadCharactersIO io = new ReadCharactersIO();
         try {
-        LinkedList<GameCharacter> defaultCharList = io.readCharacters("file");
+            ArrayList<GameCharacter> defaultCharList = io.readCharacters("file");
         } catch( Exception e) {
           // TODO
         }

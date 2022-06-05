@@ -303,6 +303,20 @@ public class LinkedListTest {
 		assertEquals(strList.size(), 0);
 		assertEquals(intList.size(), 0);
 
+		// Get from empty list
+		try {
+			strList.get(1);
+			fail();
+		} catch (Exception e) {
+			// Test passes
+		}
+		try {
+			intList.get(1);
+			fail();
+		} catch (Exception e) {
+			// Test passes
+		}
+
 		// Adds objects to empty lists
 		strList.add(str0);
 		strList.add(str1);
