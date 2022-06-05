@@ -1,9 +1,10 @@
 package io;
 
+import io.ReadCharactersIO;
 import character.GameCharacter;
 import org.junit.Before;
 import org.junit.Test;
-import util.LinkedList;
+import java.util.ArrayList;
 
 import static org.junit.Assert.*;
 
@@ -12,14 +13,14 @@ import static org.junit.Assert.*;
  * @author Zoë Hausmann
  */
 public class ReadCharactersIOTest {
-    private LinkedList<GameCharacter> charList; // List for storing newly created characters
+    private ArrayList<GameCharacter> charList; // List for storing newly created characters
 
     /**
      * Resets character list.
      */
     @Before
     public void setUp() {
-        charList = new LinkedList<>();
+        charList = new ArrayList<>();
     }
 
     /**
@@ -30,11 +31,11 @@ public class ReadCharactersIOTest {
         // Valid character file
         setUp();
         try {
-            String validFile = "test-files/valid-file";
-            ReadCharactersIO.readCharacters(validFile);
+            String validFile = "test-files/valid-file-1";
+            charList = ReadCharactersIO.readCharacters(validFile);
         } catch (Exception e) { fail(); }
         assertEquals(9, charList.size());
-        assertEquals("Alpha", charList.get(0).getName());
+        assertEquals("Alpha", (charList.get(0)).getName());
         assertEquals("Bravo", charList.get(1).getName());
         assertEquals("Charlie", charList.get(2).getName());
         assertEquals("Delta", charList.get(3).getName());

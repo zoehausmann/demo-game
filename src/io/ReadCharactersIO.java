@@ -1,7 +1,7 @@
 package io;
 
 import character.GameCharacter;
-import util.LinkedList;
+import java.util.ArrayList;
 import java.io.File;
 import java.util.Scanner;
 
@@ -17,26 +17,23 @@ public class ReadCharactersIO {
      * @param filename name of the file with character data
      * @throws Exception if an error occurs while reading character data from file
      */
-    public static LinkedList<GameCharacter> readCharacters(String filename) throws Exception {
+    public static ArrayList<GameCharacter> readCharacters(String filename) throws Exception {
         // Create new empty list to store characters
-        LinkedList<GameCharacter> charList = new LinkedList<>();
-        try {
-            // Check that file exists
-            File file = new File(filename);
-            Scanner in = new Scanner(file);
-            // Read file in line by line
-            String line;
-            while(in.hasNextLine()) {
-                line = in.nextLine();
-                // Try to create a new character for each line
-                GameCharacter temp;
-                try {
-                    temp = validateCharacter(line);
-                } catch (Exception e) { throw new Exception(e.getMessage()); }
-                charList.add(temp);
-            }
-        } catch (Exception e) { throw new Exception(e.getMessage()); }
-        return charList;
+        ArrayList<GameCharacter> characterList = new ArrayList<>();
+        // Check that file exists
+        File file = new File(filename);
+        Scanner in = new Scanner(file);
+        // Read file in line by line
+        String line;
+        while(in.hasNextLine()) {
+            line = in.nextLine();
+            try {
+                GameCharacter temp =  validateCharacter(line);                          // TODO
+                characterList.add(temp);
+            } catch (Exception e) { throw new Exception(e.getMessage()); }
+        }
+        in.close();
+        return characterList;
     }
 
     /**
@@ -49,8 +46,6 @@ public class ReadCharactersIO {
      * @throws Exception if error occurs creating character
      */
     private static GameCharacter validateCharacter(String data) throws Exception {
-        // Create temporary character
-        GameCharacter newChar;
         // Create scanner to read character data
         Scanner in;
         try { in = new Scanner(data); } catch (Exception e) {
@@ -74,7 +69,7 @@ public class ReadCharactersIO {
         if(in.hasNext())
             throw new Exception("Invalid character data format.");
         // Create character
-        newChar = new GameCharacter(name, origin, stats[0], stats[1], stats[2],
+        GameCharacter newChar = new GameCharacter(name, origin, stats[0], stats[1], stats[2],
                 stats[3], stats[4], stats[5], profile);
         in.close();
         return newChar;

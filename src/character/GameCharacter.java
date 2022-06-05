@@ -15,20 +15,20 @@ public class GameCharacter {
         CONSTITUTION,   // DEFENDER - increase in starting HP
         INTELLIGENCE,   // ATTACKER - likelihood to repeat moves
         WISDOM,         // DEFENDER - knowledge of likelihood of move to be an attack
-        CHARISMA;       // DEFENDER - increase number of turns
+        CHARISMA      // DEFENDER - increase number of turns
     }
 
     // CONSTANTS
     /** Character name */
-    private static String name;
+    private String name;
     /** Character origin */
-    private static String origin;
+    private String origin;
     /** Character's integer stats */
-    private static int[] stats;
+    private int[] stats;
     /** Source file for character's profile picture */
     private String pfp;
     /** Character's starting HP */
-    private static int charHP;
+    private int charHP;
     /** Default character starting HP */
     private final int BASE_HP = 1000;
 
@@ -54,11 +54,11 @@ public class GameCharacter {
     public GameCharacter(String name, String origin,
                          int str, int dex, int con,
                          int ntl, int wis, int chr, String file) {
-        setName(name);
-        setOrigin(origin);
-        stats = new int[]{str, dex, con, ntl, wis, chr};
-        setPfp(file);
-        charHP = BASE_HP + get(Stat.STRENGTH); // Calculates character's starting HP
+            setName(name);
+            setOrigin(origin);
+            stats = new int[]{str, dex, con, ntl, wis, chr};
+            setPfp(file);
+            charHP = BASE_HP + get(Stat.STRENGTH); // Calculates character's starting HP
     }
 
     // GETTERS AND SETTERS
