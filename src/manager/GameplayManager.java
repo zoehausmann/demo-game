@@ -1,7 +1,6 @@
 package manager;
 
 import character.GameCharacter;
-import gameplay.Board;
 
 /**
  * GameplayManager functions as a Controller for one round of the game.
@@ -77,7 +76,6 @@ public class GameplayManager {
      *
      */
     public void play() {
-        Board board = new Board(turns, moves);
         // TODO: set up UI - GameplayUIManager(attacker, defender, turns, moves);
 
         // TODO: Prompt defender to choose pattern
