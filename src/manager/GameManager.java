@@ -12,6 +12,10 @@ import java.util.Scanner;
  */
 public class GameManager {
     // CONSTANTS
+    /** Number of actions per turn */
+    public static final int ACTIONS = 5;
+    /** Number of turns per game */
+    public static final int TURNS = 10;
     /** Default game character data */
     private final String DEFAULT_CHARS= "game-files/default-characters";
     /** User-created character data */
@@ -22,6 +26,9 @@ public class GameManager {
     ArrayList<GameCharacter> defaultCharList;
     /** List of user-created characters */
     ArrayList<GameCharacter> userCharList;
+
+    ArrayList<GameCharacter> NPC;
+    ArrayList<GameCharacter> Player;
 
     // GAME MANAGER SINGLETON PATTERN
     /** Single instance of GameManager **/
