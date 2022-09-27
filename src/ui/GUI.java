@@ -37,67 +37,105 @@
 
 package ui;
 
+import manager.GameManager;
+import model.Turn;
+import model.TurnTableModel;
+
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
-public class GUI extends JFrame {
+public class GUI extends JFrame implements ActionListener {
 
     /** All possible actions the player can guess for the NPC's move */
-    private static final String actionList[] = {"Punch", "Kick", "Special", "Duck", "Jump", "Block"};
-    /** Options for the first move */
-    JComboBox choiceOne;
-    /** Options for the second move */
-    JComboBox choiceTwo;
-    /** Options for the third move */
-    JComboBox choiceThree;
-    /** Options for the fourth move */
-    JComboBox choiceFour;
-    /** Options for the fifth move */
-    JComboBox choiceFive;
     /** Button to confirm player's selection of moves */
-    private JButton confirmButton = new JButton("Confirm");
+    protected JButton confirmButton;
+    /** List of action choices for each player move */
+    private static final String[] actionList = {"Punch", "Kick", "Special", "Duck", "Jump", "Block"};
+    private ArrayList<JComboBox> boxes = new ArrayList<>();
 
     /** Grid of moves*/
     private JPanel moveGrid;
+    private JPanel npcData;
+    private JPanel turnTable;
+    private JPanel playerData;
+    private int turnCount = 0;
 
     public GUI(String name) {
         super(name);
         setResizable(false);
     }
 
-    public void createActionList(){
-        choiceOne = new JComboBox(actionList);
-        choiceTwo = new JComboBox(actionList);
-        choiceThree = new JComboBox(actionList);
-        choiceFour = new JComboBox(actionList);
-        choiceFive = new JComboBox(actionList);
-    }
     public void addComponentsToPane(final Container pane) {
-        // NORTH: Create NPC panel
-        JPanel npcData = new NPCDataPanel();
+        // CREATE NPC PANEL
+        npcData = new NPCDataPanel();
         npcData.setBorder(new EmptyBorder(20, 20, 10, 20));
 
-        // CENTER: Create Turn table
-        JPanel table = new TurnTablePanel();
-        table.setBorder(new EmptyBorder(10, 20, 10, 20));
+        // CREATE TURN PANEL
+        turnTable = new TurnTablePanel();
+        turnTable.setBorder(new EmptyBorder(10, 20, 10, 20));
 
-        // SOUTH: Create Player panel
-        createActionList();
-        JPanel controls = new PlayerDataPanel();
-        controls.setBorder(new EmptyBorder(10, 20, 20, 20));
-        controls.setLayout(new GridLayout(0,7));
+        // CREATE PLAYER PANEL
+        playerData = new JPanel();
+        playerData.setLayout(new GridBagLayout());
+        GridBagConstraints c = new GridBagConstraints();
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.weightx = 1.0;
+        c.weighty = 1.0;
 
+        JLabel label;
+        JPanel grid = new JPanel();
+        grid.setLayout(new GridLayout(0,GameManager.ACTIONS + 2));
+
+        // Row 1: Move Labels
+        grid.add(new JLabel(" "));
+        for (int i = 1; i <= GameManager.ACTIONS; i++)
+            grid.add(new JLabel("Move " + i, SwingConstants.CENTER));
+        grid.add(new JLabel(" "));
+
+        // Row 2: JComboBoxes
+        grid.add(new JLabel(" "));
+        for (int i = 1; i <= GameManager.ACTIONS; i++) {
+            JComboBox box = new JComboBox<>(actionList);
+            boxes.add(box);
+            grid.add(box);
+        }
+        confirmButton = new JButton("Confirm");
+        confirmButton.addActionListener(new GUI(this.getName()));
+        grid.add(confirmButton);
+
+        c.gridwidth = 1;
+        c.gridx = 0;
+        c.gridy = 0;
+        playerData.add(grid, c);
+
+        // Row 3: Player Image
+        label = new JLabel("", SwingConstants.RIGHT);
+        ImageIcon imageIcon = new ImageIcon(new ImageIcon("test-files/test-image.png").getImage()
+                .getScaledInstance(100, 100, Image.SCALE_SMOOTH));
+        label.setIcon(imageIcon);
+        label.setBorder(new EmptyBorder(20, 0, 18, 0));
+        c.gridwidth = 1;
+        c.gridx = 0;
+        c.gridy = 1;
+        playerData.add(label, c);
+
+        // Row 4: Player Name
+        label = new JLabel("Character Name", SwingConstants.RIGHT);
+        label.setFont(new Font("Sans-Serif", Font.PLAIN, 18));
+        c.gridwidth = 1;
+        c.gridx = 0;
+        c.gridy = 2;
+        playerData.add(label, c);
+        playerData.setBorder(new EmptyBorder(10, 20, 20, 20));
 
         pane.add(npcData, BorderLayout.NORTH);
-        pane.add(table, BorderLayout.CENTER);
-//        pane.add(new JSeparator(), BorderLayout.CENTER);
-        pane.add(controls, BorderLayout.SOUTH);
+        pane.add(turnTable, BorderLayout.CENTER);
+        pane.add(playerData, BorderLayout.SOUTH);
     }
-
-
-
-
 
     /**
      * Create the GUI and show it.  For thread safety,
@@ -136,5 +174,15 @@ public class GUI extends JFrame {
                 createAndShowGUI();
             }
         });
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        for (int i = 1; i <= GameManager.ACTIONS; i++) {
+            String temp = this.boxes.get(i - 1).getSelectedItem().toString();
+            ((TurnTablePanel) turnTable).setValueAt(turnCount, i, temp);
+        }
+        turnCount++;
+
     }
 }

@@ -24,6 +24,8 @@ import java.util.List;
 public class TurnTablePanel extends JPanel
 {
     private static final int ROW_HEIGHT = 30;
+    private TurnTableModel model;
+
     public TurnTablePanel()
     {
         // Create and build the list
@@ -32,7 +34,7 @@ public class TurnTablePanel extends JPanel
             turnList.add(new Turn(i));
 
         // Create the model
-        TurnTableModel model = new TurnTableModel(turnList);
+        model = new TurnTableModel(turnList);
 
         // Create the table
         JTable table = new JTable(model);
@@ -58,6 +60,10 @@ public class TurnTablePanel extends JPanel
         // Extra 30 to make it full width
         scrollPane.setPreferredSize(new Dimension(d.width * 2,table.getRowHeight()*(GameManager.TURNS + 1)));
         this.add(scrollPane);
+    }
+
+    public void setValueAt (int rowIndex, int columnIndex, String value) {
+        model.setValueAt(rowIndex, columnIndex, value);
     }
 
     /**

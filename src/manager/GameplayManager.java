@@ -6,6 +6,7 @@ import character.GameCharacter;
  * GameplayManager functions as a Controller for one round of the game.
  * GameManager creates and maintains a singular instance of GameplayManager.
  * After the round is completed, returns to GameManager for next steps.
+ *
  * @author Zoë Hausmann
  */
 public class GameplayManager {

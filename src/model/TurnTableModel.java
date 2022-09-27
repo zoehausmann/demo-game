@@ -97,4 +97,18 @@ public class TurnTableModel extends AbstractTableModel {
     public Object getValueAt(int rowIndex, int columnIndex) {
         return turnList.get(rowIndex).getValueAt(columnIndex);
     }
+
+    /**
+     * Sets the value at a given row and column in the table.
+     * @param rowIndex row of the value
+     * @param columnIndex column of the value
+     * @param value value to be set
+     * @return the value that was set
+     */
+    public Object setValueAt(int rowIndex, int columnIndex, String value) {
+        Turn turn = turnList.get(rowIndex);
+        turn.setValueAt(value, columnIndex);
+        turnList.set(rowIndex, turn);
+        return turnList.get(rowIndex).getValueAt(columnIndex);
+    }
 }
