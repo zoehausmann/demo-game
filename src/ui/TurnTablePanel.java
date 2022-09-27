@@ -1,6 +1,8 @@
-package model;
+package ui;
 
 import manager.GameManager;
+import model.Turn;
+import model.TurnTableModel;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -19,10 +21,10 @@ import java.util.List;
  *
  * @author Zoë Hausmann
  */
-public class TurnTable extends JPanel
+public class TurnTablePanel extends JPanel
 {
     private static final int ROW_HEIGHT = 30;
-    public TurnTable()
+    public TurnTablePanel()
     {
         // Create and build the list
         List<Turn> turnList = new ArrayList<>();
@@ -51,10 +53,10 @@ public class TurnTable extends JPanel
                 JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         Dimension d = table.getPreferredSize();
         table.getTableHeader().setPreferredSize(
-                new Dimension(scrollPane.getWidth(),ROW_HEIGHT)
+                new Dimension(scrollPane.getWidth()*2,ROW_HEIGHT)
         );
         // Extra 30 to make it full width
-        scrollPane.setPreferredSize(new Dimension(d.width + 30,table.getRowHeight()*(GameManager.TURNS + 1)));
+        scrollPane.setPreferredSize(new Dimension(d.width * 2,table.getRowHeight()*(GameManager.TURNS + 1)));
         this.add(scrollPane);
     }
 
@@ -63,6 +65,6 @@ public class TurnTable extends JPanel
      * @param args unused default arguments
      */
     public static void main(String args[]) {
-        SwingUtilities.invokeLater(() -> new TurnTable());
+        SwingUtilities.invokeLater(() -> new TurnTablePanel());
     }
 }

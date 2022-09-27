@@ -1,4 +1,4 @@
-package model;
+package ui;
 
 import manager.GameManager;
 
@@ -6,8 +6,8 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import javax.swing.*;
 
-public class NPCData extends JPanel {
-    public NPCData() {
+public class NPCDataPanel extends JPanel {
+    public NPCDataPanel() {
         this.setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
         c.fill = GridBagConstraints.HORIZONTAL;

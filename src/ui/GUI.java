@@ -37,9 +37,6 @@
 
 package ui;
 
-import model.NPCData;
-import model.TurnTable;
-
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -47,7 +44,7 @@ import javax.swing.border.EmptyBorder;
 public class GUI extends JFrame {
 
     /** All possible actions the player can guess for the NPC's move */
-    private static final String actionList[] = {"Punch", "Kick", "Jump", "Dodge", "Special"};
+    private static final String actionList[] = {"Punch", "Kick", "Special", "Duck", "Jump", "Block"};
     /** Options for the first move */
     JComboBox choiceOne;
     /** Options for the second move */
@@ -78,36 +75,19 @@ public class GUI extends JFrame {
     }
     public void addComponentsToPane(final Container pane) {
         // NORTH: Create NPC panel
-        JPanel npcData = new NPCData();
+        JPanel npcData = new NPCDataPanel();
         npcData.setBorder(new EmptyBorder(20, 20, 10, 20));
 
-        // CENTER: Create table of turns and add to the frame
-        JPanel table = new TurnTable();
-        table.setBorder(new EmptyBorder(10, 0, 10, 0));
+        // CENTER: Create Turn table
+        JPanel table = new TurnTablePanel();
+        table.setBorder(new EmptyBorder(10, 20, 10, 20));
 
-
-        // Create player controls panel
+        // SOUTH: Create Player panel
         createActionList();
-        JPanel controls = new JPanel();
+        JPanel controls = new PlayerDataPanel();
         controls.setBorder(new EmptyBorder(10, 20, 20, 20));
         controls.setLayout(new GridLayout(0,7));
 
-
-        // SOUTH: Add player controls
-        controls.add(new Label(""));
-        controls.add(new Label("Move 1", SwingConstants.CENTER));
-        controls.add(new Label("Move 2", SwingConstants.CENTER));
-        controls.add(new Label("Move 3", SwingConstants.CENTER));
-        controls.add(new Label("Move 4", SwingConstants.CENTER));
-        controls.add(new Label("Move 5", SwingConstants.CENTER));
-        controls.add(new Label(""));
-        controls.add(new Label(""));
-        controls.add(choiceOne);
-        controls.add(choiceTwo);
-        controls.add(choiceThree);
-        controls.add(choiceFour);
-        controls.add(choiceFive);
-        controls.add(confirmButton);
 
         pane.add(npcData, BorderLayout.NORTH);
         pane.add(table, BorderLayout.CENTER);
