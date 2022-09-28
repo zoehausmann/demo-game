@@ -260,6 +260,7 @@ public class GameplayGUI extends JFrame implements ActionListener {
         frame.addComponentsToPane(frame.getContentPane());
         //Display the window.
         frame.pack();
+        frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
 
@@ -267,19 +268,33 @@ public class GameplayGUI extends JFrame implements ActionListener {
         frame.getContentPane().repaint();
     }
 
+    public void exitGame() {
+        frame.dispose();
+    }
+
+    private void endGame() {
+        confirmButton.setEnabled(false);
+        ArrayList<Action> actions = GameplayManager.getInstance().npcActions();
+        npcMove1.setText(actions.get(0).toString());
+        npcMove2.setText(actions.get(1).toString());
+        npcMove3.setText(actions.get(2).toString());
+        npcMove4.setText(actions.get(3).toString());
+        npcMove5.setText(actions.get(4).toString());
+    }
+    /**
+     * After all turns are completed, reveals the NPC's moves and disables
+     * the confirm button.
+     *
+     * @param e button click
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
-        if(GLOBALS.getTurnCount() >= GLOBALS.TURNS - 1) {
-            confirmButton.setEnabled(false);
-
-            ArrayList<Action> actions = GameplayManager.getInstance().npcActions();
-            npcMove1.setText(actions.get(0).toString());
-            npcMove2.setText(actions.get(1).toString());
-            npcMove3.setText(actions.get(2).toString());
-            npcMove4.setText(actions.get(3).toString());
-            npcMove5.setText(actions.get(4).toString());
-
-            updateGameplayGUI();
+        // After all turns completed, end the game
+        if(GameplayManager.getInstance().checkWinCond() ||
+        (GLOBALS.getTurnCount() >= GLOBALS.TURNS - 1)) {
+            endGame();
+            EndPopUpGUI gui = new EndPopUpGUI();
+            gui.setupEndPopUpGUI();
         }
     }
 }

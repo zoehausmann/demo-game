@@ -13,8 +13,13 @@ public class GLOBALS {
     private static GameCharacter npc;
     private static GameCharacter player;
     private static int turnCount = 0;
+    /** Default game character data */
+    private final String DEFAULT_CHARS= "game-files/default-characters";
+    /** User-created character data */
+    private final String USER_CHARS= "game-files/user-characters";
 
-   public GLOBALS(GameCharacter npc, GameCharacter player) {
+
+    public GLOBALS(GameCharacter npc, GameCharacter player) {
        this.npc = npc;
        this.player = player;
    }
@@ -22,4 +27,5 @@ public class GLOBALS {
     public static GameCharacter getPlayer() {  return player; }
     public static int getTurnCount() { return turnCount; }
     public static void incrementTurnCount() { turnCount++; }
+    public static void resetTurnCount() { turnCount = 0; }
 }
