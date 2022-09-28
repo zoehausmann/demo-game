@@ -1,122 +1,117 @@
 package manager;
 
 import character.GameCharacter;
+import gameplay.Action;
+import gameplay.GameBoardModel;
+import gameplay.GLOBALS;
+import gameplay.Turn;
+import ui.gameplay.GameplayGUI;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * GameplayManager functions as a Controller for one round of the game.
+ * GameplayManager functions as a Controller for an instance of the game.
  * GameManager creates and maintains a singular instance of GameplayManager.
+ *
+ * When triggered by an ActionListener in the GameplayGUI, GameManager executes the appropriate action.
+ *
  * After the round is completed, returns to GameManager for next steps.
+ *
+ *
  *
  * @author Zoë Hausmann
  */
-public class GameplayManager {
-    // CONSTANTS
-    /** Attacking player */
-    private GameCharacter attacker;
-    /** Defending player */
-    private GameCharacter defender;
-    /** Number of turns */
-    private int turns;
-    /** Number of moves per turn */
-    private int moves;
-
+public class GameplayManager implements ActionListener  {
     // VARIABLES
+    /** Representation of NPC */
+    private GameCharacter npc;
+    /** List of NPC actions*/
+    private ArrayList<Action> npcActions;
+    /** Representation of player character */
+    private GameCharacter player;
+    /** Live model of the game board */
+    private GameBoardModel gameBoardModel;
+    /** Live model of the game board */
+    private GameBoardModel model;
+    static GameplayGUI gui;
 
-    // GAMEPLAY MANAGER SINGLETON PATTERN
-    /** Single instance of GameplayManager **/
+
+    // GAME MANAGER SINGLETON PATTERN
+    /** Single instance of GameManager **/
     private static GameplayManager instance;
-    /** Private constructor for one-time GameplayManager creation. */
+    /** Private constructor for one-time GameManager creation. */
     private GameplayManager() { /** Nothing to do */ }
     /** Creates instance at class loading time. */
     static { instance = new GameplayManager(); }
     /** Static instance method */
-    protected static GameplayManager getInstance() { return instance; }
-
-    /**
-     * Reset the state of the GameplayManager.
-     */
-    protected static void reset() {
-        instance = null;
-        instance = new GameplayManager();
-    }
-
-    /**
-     * Starts a new round of the game with new character choices.
-     * @param attacker attacking character
-     * @param defender defending character
-     */
-    protected void newGame(GameCharacter attacker, GameCharacter defender,
-                           int turns, int moves) {
-        reset();
-        this.attacker = attacker;
-        this.defender = defender;
-        this.turns = turns;
-        this.moves = moves;
-        play();
-    }
-
+    public static GameplayManager getInstance() { return instance; }
 
     // GETTERS AND SETTERS
-    /**
-     * Assigns the given character as the attacker.
-     * @param character character selected to be the attacker
-     */
-    public void setAttacker(GameCharacter character) {
-        this.attacker = character;
+    public GameBoardModel getModel() {
+        return model;
     }
-
-    /**
-     * Assigns the given character as the defender.
-     * @param character character selected to be the defender
-     */
-    public void setDefender(GameCharacter character) { this.defender = character; }
 
     // GAMEPLAY
+    public void setup() {
+        // Generates NPC actions and adds them to npcActions list
+        // Creates board model
+        // Create and build the list
+        List<Turn> turnList = new ArrayList<>();
+        for (int i = 1; i <= GLOBALS.TURNS; i++)
+            turnList.add(new Turn(i));
+
+        // Create the model
+        model = new GameBoardModel(turnList);
+
+        gui = new GameplayGUI();
+        gui.setupGameplayGUI();
+
+    }
+
     /**
-     * Starts the round and manages all subsequent gameplay.
-     *
+     * Not encapsulated
      */
-    public void play() {
-        // TODO: set up UI - GameplayUIManager(attacker, defender, turns, moves);
-
-        // TODO: Prompt defender to choose pattern
-        // private Move[] attackPattern;
-
-        // TODO: loop for each turn
-        // for int t = 0, t < turns; t++)
-        //   takeTurn
-
+    public ArrayList<Action> npcActions() {
+        npcActions = new ArrayList<Action>();
+        Action temp;
+        for (int i = 0; i < GLOBALS.ACTIONS; i++) {
+            int rand = (int) Math.floor(Math.random() * 6);
+            switch (rand) {
+                case 0:
+                    temp = Action.PUNCH;
+                    break;
+                case 1:
+                    temp = Action.KICK;
+                    break;
+                case 2:
+                    temp = Action.SPECIAL;
+                    break;
+                case 3:
+                    temp = Action.DUCK;
+                    break;
+                case 4:
+                    temp = Action.JUMP;
+                    break;
+                default:
+                    temp = Action.BLOCK;
+            }
+            npcActions.add(temp);
+        }
+        return npcActions;
     }
 
-    private void takeTurn() {
-        // INPUT
-        // Prompt defender to choose defense pattern
-        // User enters move
-        // Try/catch
-
-        // EXECUTE
-        // Make array of moves
-        // Calculate number of successful moves
-        // Calculate number of partially successful moves
-        // Calculate damage dealt by attacker
-
-        // Set spaces in Board
-        // Set results colors in board (from successes)
-        // Deduct damage
-        // Report damage dealt/taken
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if(GLOBALS.getTurnCount() < GLOBALS.TURNS) {
+            ArrayList<Action> playerActions = gui.getActions();
+                for (int i = 0; i < playerActions.size(); i++) {
+                    model.setValueAt(GLOBALS.getTurnCount(), i + 1, playerActions.get(i).toString());
+                }
+            gui.updateGameplayGUI();
+            GLOBALS.incrementTurnCount();
+        }
     }
-
-
-    /**
-     * Returns the number of partially successful moves.
-     * @return the number of partially successful moves
-    private int takeHit(Move def, Move att) {
-
-    }
-
-    public void setAttackPattern(Move m1, Move m2, Move m3, Move m4, Move m5) {
-        Move[] attackPattern = {m1, m2, m3, m4, m5};
-    }
-
- */
 }

@@ -1,6 +1,4 @@
-package model;
-
-import manager.GameManager;
+package gameplay;
 
 import java.util.ArrayList;
 
@@ -28,7 +26,7 @@ public class Turn {
         this.roundNumber = roundNumber;
         actions = new ArrayList<String>();
         actions.add("Round " + roundNumber);
-        for (int i = 1; i <= GameManager.ACTIONS; i++)
+        for (int i = 1; i <= GLOBALS.ACTIONS; i++)
             actions.add("○");
         actions.add("");
     }

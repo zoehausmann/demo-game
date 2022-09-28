@@ -1,14 +1,12 @@
-package ui;
+package ui.gameplay;
 
-import manager.GameManager;
-import model.Turn;
-import model.TurnTableModel;
+import gameplay.GLOBALS;
+import gameplay.GameBoardModel;
+import manager.GameplayManager;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Creates a visual representation of grid of TurnTableModel
@@ -21,20 +19,13 @@ import java.util.List;
  *
  * @author Zoë Hausmann
  */
-public class TurnTablePanel extends JPanel
-{
+public class GameBoardPanel extends JPanel {
     private static final int ROW_HEIGHT = 30;
-    private TurnTableModel model;
+    private GameBoardModel model;
 
-    public TurnTablePanel()
-    {
-        // Create and build the list
-        List<Turn> turnList = new ArrayList<>();
-        for (int i = 1; i <= GameManager.TURNS; i++)
-            turnList.add(new Turn(i));
-
-        // Create the model
-        model = new TurnTableModel(turnList);
+    public GameBoardPanel() {
+        // Get the model
+        model = GameplayManager.getInstance().getModel();
 
         // Create the table
         JTable table = new JTable(model);
@@ -45,7 +36,7 @@ public class TurnTablePanel extends JPanel
 
         // Center all text
         DefaultTableCellRenderer cellRenderer = new DefaultTableCellRenderer();
-        cellRenderer.setHorizontalAlignment( JLabel.CENTER );
+        cellRenderer.setHorizontalAlignment(JLabel.CENTER);
         table.setDefaultRenderer(String.class, cellRenderer);
 
         // Add the table to the frame
@@ -55,22 +46,14 @@ public class TurnTablePanel extends JPanel
                 JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         Dimension d = table.getPreferredSize();
         table.getTableHeader().setPreferredSize(
-                new Dimension(scrollPane.getWidth()*2,ROW_HEIGHT)
+                new Dimension(scrollPane.getWidth() * 2, ROW_HEIGHT)
         );
         // Extra 30 to make it full width
-        scrollPane.setPreferredSize(new Dimension(d.width * 2,table.getRowHeight()*(GameManager.TURNS + 1)));
+        scrollPane.setPreferredSize(new Dimension(d.width * 2, table.getRowHeight() * (GLOBALS.TURNS + 1)));
         this.add(scrollPane);
     }
 
-    public void setValueAt (int rowIndex, int columnIndex, String value) {
-        model.setValueAt(rowIndex, columnIndex, value);
-    }
-
-    /**
-     * Creates new instance of EditableTurnTable
-     * @param args unused default arguments
-     */
-    public static void main(String args[]) {
-        SwingUtilities.invokeLater(() -> new TurnTablePanel());
+    public void setModel(GameBoardModel model) {
+        this.model = model;
     }
 }

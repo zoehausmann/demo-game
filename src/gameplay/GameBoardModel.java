@@ -1,6 +1,4 @@
-package model;
-
-import manager.GameManager;
+package gameplay;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -17,7 +15,7 @@ import javax.swing.table.AbstractTableModel;
  *
  * @author Zoë Hausmann
  */
-public class TurnTableModel extends AbstractTableModel {
+public class GameBoardModel extends AbstractTableModel {
     /** List of Turns (rows) in the game */
     private final List<Turn> turnList;
     /** List of column names */
@@ -30,7 +28,7 @@ public class TurnTableModel extends AbstractTableModel {
      * within the game board UI.
      * @param turnList list of Turns (rows) in the game
      */
-    public TurnTableModel(List<Turn> turnList) {
+    public GameBoardModel(List<Turn> turnList) {
         // Set Turn list
         this.turnList = turnList;
 
@@ -39,7 +37,7 @@ public class TurnTableModel extends AbstractTableModel {
         columnClass.add(String.class);
 
         // Add action columns names/classes
-        for(int i = 1; i <= GameManager.ACTIONS; i++) {
+        for(int i = 1; i <= GLOBALS.ACTIONS; i++) {
             columnNames.add("A" + i);
             columnClass.add(String.class);
         }

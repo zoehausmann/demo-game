@@ -1,7 +1,5 @@
 package character;
 
-import gameplay.Move;
-
 /**
  * Maintains the data for a single in-game character.
  * @author Zoë Hausmann
@@ -33,8 +31,6 @@ public class GameCharacter {
     private final int BASE_HP = 1000;
 
     // VARIABLES
-    /** Attacker's move combination */
-    private Move[] attackPattern;
     /** Character's current HP */
     private int hp;
 
@@ -73,6 +69,12 @@ public class GameCharacter {
      * @param origin Character's origin or entity
      */
     private void setOrigin(String origin) { this.origin = origin; }
+
+    /**
+     * Returns the relative file path to the player's profile picture.
+     * @return the relative file path to the player's profile picture
+     */
+    public String getPfp() { return pfp; }
 
     /**
      * Sets the location of the character's picture file.
