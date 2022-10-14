@@ -1,8 +1,24 @@
+package ui.gameplay;
+
+/* IMPORTS */
+import gameplay.GLOBALS;
+import manager.GameManager;
+import manager.GameplayManager;
+import gameplay.Action;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+
 /**
+ * User interface for playing the game.
+ * Creates visual representation of game board and
+ *
  * Created using the following resources:
  * Alex Lee - "Java GUI Tutorial - Make a GUI in 13 Minutes"
  * Alex Lee - "Java GUI Tutorial - Make a Login GUI"
- *
  * Java Tutorials Code Sample – GridLayoutDemo.java with the following disclaimer:
  *  Copyright (c) 1995, 2008, Oracle and/or its affiliates. All rights reserved.
  *
@@ -34,45 +50,48 @@
  *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *  package ui;
  */
-
-package ui.gameplay;
-
-import gameplay.GLOBALS;
-import manager.GameManager;
-import manager.GameplayManager;
-import gameplay.Action;
-
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import javax.swing.*;
-import javax.swing.border.EmptyBorder;
-
 public class GameplayGUI extends JFrame implements ActionListener {
+    /** Current window */
+    private static GameplayGUI frame;
 
+    /** First NPC action */
+    private JLabel npcMove1;
+    /** Second NPC action */
+    private JLabel npcMove2;
+    /** Third NPC action */
+    private JLabel npcMove3;
+    /** Fourth NPC action */
+    private JLabel npcMove4;
+    /** Fifth NPC action */
+    private JLabel npcMove5;
 
-    /** Button to confirm player's selection of moves */
+    /** First list of player actions */
+    private JComboBox<gameplay.Action> playerMove1;
+    /** Second list of player actions */
+    private JComboBox<gameplay.Action> playerMove2;
+    /** Third list of player actions */
+    private JComboBox<gameplay.Action> playerMove3;
+    /** Fourth list of player actions */
+    private JComboBox<gameplay.Action> playerMove4;
+    /** Fifth list of player actions */
+    private JComboBox<gameplay.Action> playerMove5;
+
+    /** Button to confirm player action selections */
     protected JButton confirmButton;
 
-    static GameplayGUI frame;
-    static EndOfGamePopupGUI eogPopup;
-
-    private JLabel npcMove1;
-    private JLabel npcMove2;
-    private JLabel npcMove3;
-    private JLabel npcMove4;
-    private JLabel npcMove5;
-    private JComboBox playerMove1;
-    private JComboBox playerMove2;
-    private JComboBox playerMove3;
-    private JComboBox playerMove4;
-    private JComboBox playerMove5;
-
+    /**
+     * Constructs a new Gameplay GUI object with the current
+     * program's name and sets resizeable to false.
+     */
     public GameplayGUI() {
         super(GLOBALS.GAME_NAME);
         setResizable(false);
     }
+
+    /**
+     * Adds content to empty content pane
+     * @param pane content pane
+     */
     public void addComponentsToPane(final Container pane) {
         // CREATE NPC PANEL
         JPanel npcData = new JPanel();
@@ -114,9 +133,6 @@ public class GameplayGUI extends JFrame implements ActionListener {
         c.gridy = 2;
         npcData.add(label, c);
 
-        ////////////////////////////////////////
-        /// DISALLOWS CUSTOM NUMBER OF TURNS ///
-        ////////////////////////////////////////
         npcMove1 = new JLabel(" ? ", SwingConstants.CENTER);
         c.fill = GridBagConstraints.HORIZONTAL;
         c.gridwidth = 1;
@@ -180,9 +196,6 @@ public class GameplayGUI extends JFrame implements ActionListener {
             grid.add(new JLabel("Move " + i, SwingConstants.CENTER));
         grid.add(new JLabel(" "));
 
-        ////////////////////////////////////////
-        /// DISALLOWS CUSTOM NUMBER OF TURNS ///
-        ////////////////////////////////////////
         // Row 2: JComboBoxes
         grid.add(new JLabel(" "));
 
@@ -243,9 +256,10 @@ public class GameplayGUI extends JFrame implements ActionListener {
         pane.add(playerData, BorderLayout.SOUTH);
     }
 
-    ////////////////////////////////////////
-    /// DISALLOWS CUSTOM NUMBER OF TURNS ///
-    ////////////////////////////////////////
+    /**
+     * Returns list of actions selected and confirmed by the player
+     * @return list of actions selected and confirmed by the player
+     */
     public ArrayList<Action> getActions() {
         ArrayList<Action> playerActions = new ArrayList<>();
         playerActions.add((Action) frame.playerMove1.getSelectedItem());
@@ -257,10 +271,13 @@ public class GameplayGUI extends JFrame implements ActionListener {
 
     }
 
+    /**
+     * Sets up content pane
+     */
     public void setupGameplayGUI() {
         //Create and set up the window.
         frame = new GameplayGUI();
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
         //Set up the content pane.
         frame.addComponentsToPane(frame.getContentPane());
         //Display the window.
@@ -269,14 +286,20 @@ public class GameplayGUI extends JFrame implements ActionListener {
         frame.setVisible(true);
     }
 
+    /** Repaints current GUI window */
     public void updateGameplayGUI() {
         frame.getContentPane().repaint();
     }
 
+    /** Disposes of current GUI window */
     public void exitGame() {
         frame.dispose();
     }
 
+    /**
+     * Disables the confirm button and reveals the NPC's actions chosen
+     * at the beginning of the game.
+     */
     private void endGame() {
         confirmButton.setEnabled(false);
         ArrayList<Action> actions = GameplayManager.getInstance().npcActions();
@@ -290,42 +313,45 @@ public class GameplayGUI extends JFrame implements ActionListener {
     /**
      * After all turns are completed, reveals the NPC's moves and disables
      * the confirm button.
+     * Enables the popup window for the user to choose whether to exit or
+     * start a new game.
      *
      * @param e button click
      */
     @Override
     public void actionPerformed(ActionEvent e) {
-        // After all turns completed, end the game
+        // If all turns completed or player guesses correctly, end the game
         if(GameplayManager.getInstance().checkWinCond() ||
         (GLOBALS.getTurnCount() >= GLOBALS.TURNS - 1)) {
             endGame();
-            EndOfGamePopupGUI.getInstance().setVisible(true);
+            EndOfGamePopupGUI.getInstance().setVisible(true);   // Show popup
         }
+        // If the user clicks "New Game", start a new game and hide the popup
         if(e.getActionCommand().equals(Buttons.NEW_GAME.name())) {
-            GameManager.newGame();
             EndOfGamePopupGUI.getInstance().setVisible(false);
+            GameManager.newGame();
+        // If the user clicks "Exit", terminate program with successful exit code
         } else if (e.getActionCommand().equals(Buttons.EXIT.name())) {
             System.exit(0);
         }
     }
 
     /**
-     * UI JPanel component representing the player's information and controls
+     * Popup window shown at the end of a game to prompt user
+     * to either start a new game or exit the program.
      *
      * Created using the following resources:
      * Oracle - How to Use GridBagLayout
      * https://docs.oracle.com/javase/tutorial/uiswing/layout/gridbag.html
-     *
-     * https://stackoverflow.com/questions/5936261/how-to-add-action-listener-that-listens-to-multiple-buttons
-     *
+
      * @author Zoë Hausmann
      */
     private static class EndOfGamePopupGUI extends JFrame {
         // EOG POPUP GUI SINGLETON PATTERN
-        public static volatile EndOfGamePopupGUI instance = null;
+        public static volatile EndOfGamePopupGUI instance;
         /** Private constructor for one-time EndOfGamePopupGUI. */
-        private EndOfGamePopupGUI() { /** Nothing to do */}
-        /** Creates instance at class loading time. */
+        private EndOfGamePopupGUI() { /* Nothing to do */ }
+        // Creates instance at class loading time.
         static {
             instance = new EndOfGamePopupGUI();
             setUpEOGPopupGUI();
@@ -334,7 +360,7 @@ public class GameplayGUI extends JFrame implements ActionListener {
         public static EndOfGamePopupGUI getInstance() { return instance; }
 
         /**
-         * Adds content to empty JFrame
+         * Adds content to empty content pane
          * @param pane content pane
          */
         public void addComponentsToPane(final Container pane) {
@@ -382,11 +408,11 @@ public class GameplayGUI extends JFrame implements ActionListener {
          * Sets up content pane
          */
         private static void setUpEOGPopupGUI() {
-            //Create and set up the window.
-            instance.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            //Set up the content pane.
+            // Create and set up the window.
+            instance.setDefaultCloseOperation(EXIT_ON_CLOSE);
+            // Set up the content pane.
             instance.addComponentsToPane(instance.getContentPane());
-            //Display the window.
+            // Display the window.
             instance.pack();
             instance.setLocationRelativeTo(null);
         }
