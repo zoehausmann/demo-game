@@ -4,6 +4,7 @@ import gameplay.Action;
 import gameplay.GameBoardModel;
 import gameplay.GLOBALS;
 import gameplay.Turn;
+import ui.gameplay.Buttons;
 import ui.gameplay.GameplayGUI;
 
 import java.awt.event.ActionEvent;

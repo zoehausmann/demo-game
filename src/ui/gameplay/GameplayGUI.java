@@ -38,6 +38,7 @@
 package ui.gameplay;
 
 import gameplay.GLOBALS;
+import manager.GameManager;
 import manager.GameplayManager;
 import gameplay.Action;
 
@@ -50,10 +51,13 @@ import javax.swing.border.EmptyBorder;
 
 public class GameplayGUI extends JFrame implements ActionListener {
 
+
     /** Button to confirm player's selection of moves */
     protected JButton confirmButton;
-    /***/
-    GameplayGUI frame;
+
+    static GameplayGUI frame;
+    static EndOfGamePopupGUI eogPopup;
+
     private JLabel npcMove1;
     private JLabel npcMove2;
     private JLabel npcMove3;
@@ -206,6 +210,7 @@ public class GameplayGUI extends JFrame implements ActionListener {
         confirmButton = new JButton("Confirm");
         confirmButton.addActionListener(GameplayManager.getInstance());
         confirmButton.addActionListener(this);
+        confirmButton.setActionCommand(Buttons.CONFIRM.name());
         grid.add(confirmButton);
 
         d.gridwidth = 1;
@@ -281,6 +286,7 @@ public class GameplayGUI extends JFrame implements ActionListener {
         npcMove4.setText(actions.get(3).toString());
         npcMove5.setText(actions.get(4).toString());
     }
+
     /**
      * After all turns are completed, reveals the NPC's moves and disables
      * the confirm button.
@@ -293,8 +299,97 @@ public class GameplayGUI extends JFrame implements ActionListener {
         if(GameplayManager.getInstance().checkWinCond() ||
         (GLOBALS.getTurnCount() >= GLOBALS.TURNS - 1)) {
             endGame();
-            EndPopUpGUI gui = new EndPopUpGUI();
-            gui.setupEndPopUpGUI();
+            EndOfGamePopupGUI.getInstance().setVisible(true);
         }
+        if(e.getActionCommand().equals(Buttons.NEW_GAME.name())) {
+            GameManager.newGame();
+            EndOfGamePopupGUI.getInstance().setVisible(false);
+        } else if (e.getActionCommand().equals(Buttons.EXIT.name())) {
+            System.exit(0);
+        }
+    }
+
+    /**
+     * UI JPanel component representing the player's information and controls
+     *
+     * Created using the following resources:
+     * Oracle - How to Use GridBagLayout
+     * https://docs.oracle.com/javase/tutorial/uiswing/layout/gridbag.html
+     *
+     * https://stackoverflow.com/questions/5936261/how-to-add-action-listener-that-listens-to-multiple-buttons
+     *
+     * @author Zoë Hausmann
+     */
+    private static class EndOfGamePopupGUI extends JFrame {
+        // EOG POPUP GUI SINGLETON PATTERN
+        public static volatile EndOfGamePopupGUI instance = null;
+        /** Private constructor for one-time EndOfGamePopupGUI. */
+        private EndOfGamePopupGUI() { /** Nothing to do */}
+        /** Creates instance at class loading time. */
+        static {
+            instance = new EndOfGamePopupGUI();
+            setUpEOGPopupGUI();
+        }
+        /** Static instance method */
+        public static EndOfGamePopupGUI getInstance() { return instance; }
+
+        /**
+         * Adds content to empty JFrame
+         * @param pane content pane
+         */
+        public void addComponentsToPane(final Container pane) {
+            JPanel panel = new JPanel();
+            panel.setLayout(new GridBagLayout());
+            panel.setBorder(new EmptyBorder(20, 20, 20, 20));
+            GridBagConstraints c = new GridBagConstraints();
+            c.fill = GridBagConstraints.HORIZONTAL;
+            c.insets = new Insets(5, 5, 5, 5);
+            c.weightx = 1.0;
+            c.weighty = 1.0;
+
+            // Row 1: Message
+            JLabel label = new JLabel();
+            if (GameplayManager.getInstance().checkWinCond())
+                label.setText("Congratulations! You won! Play again?");
+            else
+                label.setText("Better luck next time! Play again?");
+            c.gridwidth = 2;
+            c.gridx = 0;
+            c.gridy = 0;
+            panel.add(label, c);
+
+            // Row 2: Buttons
+            JButton button1 = new JButton("New Game");
+            button1.addActionListener(GameplayGUI.frame);
+            button1.setActionCommand(Buttons.NEW_GAME.name());
+            c.gridwidth = 1;
+            c.gridx = 0;
+            c.gridy = 1;
+            panel.add(button1, c);
+
+            JButton button2 = new JButton("Exit");
+            button2.addActionListener(GameplayGUI.frame);
+            button2.setActionCommand(Buttons.EXIT.name());
+            c.gridwidth = 1;
+            c.gridx = 1;
+            c.gridy = 1;
+            panel.add(button2, c);
+
+            pane.add(panel, BorderLayout.CENTER);
+        }
+
+        /**
+         * Sets up content pane
+         */
+        private static void setUpEOGPopupGUI() {
+            //Create and set up the window.
+            instance.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            //Set up the content pane.
+            instance.addComponentsToPane(instance.getContentPane());
+            //Display the window.
+            instance.pack();
+            instance.setLocationRelativeTo(null);
+        }
+
     }
 }
