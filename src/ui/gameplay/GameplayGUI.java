@@ -53,6 +53,8 @@ import javax.swing.border.EmptyBorder;
 public class GameplayGUI extends JFrame implements ActionListener {
     /** Current window */
     private static GameplayGUI frame;
+    /** End of game popup window */
+    private static EndOfGamePopupGUI eogPopupGUI;
 
     /** First NPC action */
     private JLabel npcMove1;
@@ -324,12 +326,16 @@ public class GameplayGUI extends JFrame implements ActionListener {
         if(GameplayManager.getInstance().checkWinCond() ||
         (GLOBALS.getTurnCount() >= GLOBALS.TURNS - 1)) {
             endGame();
-            EndOfGamePopupGUI.getInstance().setVisible(true);   // Show popup
+            // Create GUI
+            if(eogPopupGUI != null)
+                eogPopupGUI.exitPopup();
+            eogPopupGUI = new EndOfGamePopupGUI();
+            eogPopupGUI.setUpEOGPopupGUI();
         }
         // If the user clicks "New Game", start a new game and hide the popup
         if(e.getActionCommand().equals(Buttons.NEW_GAME.name())) {
-            EndOfGamePopupGUI.getInstance().setVisible(false);
             GameManager.newGame();
+            eogPopupGUI.exitPopup();
         // If the user clicks "Exit", terminate program with successful exit code
         } else if (e.getActionCommand().equals(Buttons.EXIT.name())) {
             System.exit(0);
@@ -347,17 +353,16 @@ public class GameplayGUI extends JFrame implements ActionListener {
      * @author Zoë Hausmann
      */
     private static class EndOfGamePopupGUI extends JFrame {
-        // EOG POPUP GUI SINGLETON PATTERN
-        public static volatile EndOfGamePopupGUI instance;
-        /** Private constructor for one-time EndOfGamePopupGUI. */
-        private EndOfGamePopupGUI() { /* Nothing to do */ }
-        // Creates instance at class loading time.
-        static {
-            instance = new EndOfGamePopupGUI();
-            setUpEOGPopupGUI();
+        /** Popup window */
+        private static EndOfGamePopupGUI popupFrame;
+
+        /**
+         * Constructs empty popup with program name and sets resizeable to false
+         */
+        public EndOfGamePopupGUI() {
+            super(GLOBALS.GAME_NAME);
+            setResizable(false);
         }
-        /** Static instance method */
-        public static EndOfGamePopupGUI getInstance() { return instance; }
 
         /**
          * Adds content to empty content pane
@@ -404,17 +409,24 @@ public class GameplayGUI extends JFrame implements ActionListener {
             pane.add(panel, BorderLayout.CENTER);
         }
 
+        /** Disposes of current popup window */
+        public void exitPopup() {
+            popupFrame.dispose();
+        }
+
         /**
          * Sets up content pane
          */
-        private static void setUpEOGPopupGUI() {
-            // Create and set up the window.
-            instance.setDefaultCloseOperation(EXIT_ON_CLOSE);
-            // Set up the content pane.
-            instance.addComponentsToPane(instance.getContentPane());
-            // Display the window.
-            instance.pack();
-            instance.setLocationRelativeTo(null);
+        public void setUpEOGPopupGUI() {
+            //Create and set up the window.
+            popupFrame = new EndOfGamePopupGUI();
+            popupFrame.setDefaultCloseOperation(EXIT_ON_CLOSE);
+            //Set up the content pane.
+            popupFrame.addComponentsToPane(popupFrame.getContentPane());
+            //Display the window.
+            popupFrame.pack();
+            popupFrame.setLocationRelativeTo(null);
+            popupFrame.setVisible(true);
         }
 
     }
