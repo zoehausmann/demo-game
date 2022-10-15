@@ -5,7 +5,7 @@ import manager.GameManager;
 
 public class GLOBALS {
     /** Game name */
-    public static final String GAME_NAME = "Demo Game";
+    public static final String GAME_NAME = "Mastermind";
     /** Number of actions per turn */
     public static final int ACTIONS = 5;
     /** Number of turns per game */

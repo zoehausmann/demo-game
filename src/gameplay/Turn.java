@@ -16,7 +16,7 @@ public class Turn {
     /** Round number */
     private int roundNumber = 0;
     /** List containing Round label and actions */
-    private ArrayList<String> actions;
+    private final ArrayList<String> actions;
 
     /**
      * Creates a new Turn object with a Round name and placeholder actions.
@@ -24,7 +24,7 @@ public class Turn {
      */
     public Turn(int roundNumber) {
         this.roundNumber = roundNumber;
-        actions = new ArrayList<String>();
+        actions = new ArrayList<>();
         actions.add("Round " + roundNumber);
         for (int i = 1; i <= GLOBALS.ACTIONS; i++)
             actions.add("○");

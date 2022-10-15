@@ -14,7 +14,7 @@ import java.util.List;
 
 /**
  * GameplayManager functions as a Controller for an instance of the game.
- * GameManager creates and maintains a singular instance of GameplayManager.
+ * A singular instance of GameplayManager is maintained by GameManager.
  *
  * When triggered by an ActionListener in the GameplayGUI, GameManager executes the appropriate action.
  *

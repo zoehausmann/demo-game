@@ -53,8 +53,14 @@ import javax.swing.border.EmptyBorder;
 public class GameplayGUI extends JFrame implements ActionListener {
     /** Current window */
     private static GameplayGUI frame;
+    /** Rules popup window */
+    private static RulesPopupGUI rulesPopupGUI;
     /** End of game popup window */
     private static EndOfGamePopupGUI eogPopupGUI;
+    /** Button to display rules */
+    protected JButton rulesButton;
+    /** Button to confirm player action selections */
+    protected JButton confirmButton;
 
     /** First NPC action */
     private JLabel npcMove1;
@@ -78,9 +84,6 @@ public class GameplayGUI extends JFrame implements ActionListener {
     /** Fifth list of player actions */
     private JComboBox<gameplay.Action> playerMove5;
 
-    /** Button to confirm player action selections */
-    protected JButton confirmButton;
-
     /**
      * Constructs a new Gameplay GUI object with the current
      * program's name and sets resizeable to false.
@@ -97,7 +100,7 @@ public class GameplayGUI extends JFrame implements ActionListener {
     public void addComponentsToPane(final Container pane) {
         // CREATE NPC PANEL
         JPanel npcData = new JPanel();
-        npcData.setBorder(new EmptyBorder(20, 20, 10, 20));
+        npcData.setBorder(BorderFactory.createEmptyBorder(20,25,0,25));
         npcData.setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
         c.fill = GridBagConstraints.HORIZONTAL;
@@ -112,15 +115,26 @@ public class GameplayGUI extends JFrame implements ActionListener {
                 .getScaledInstance(100, 100, Image.SCALE_DEFAULT));
         label.setIcon(npcImageIcon);
         c.ipady = 10;
-        c.gridwidth = GLOBALS.ACTIONS + 2;
+        c.gridwidth = 6;
         c.gridx = 0;
         c.gridy = 0;
         npcData.add(label, c);
 
+        rulesButton = new JButton("Rules");
+        rulesButton.setMargin(new Insets(2,2,2,2));
+        rulesButton.addActionListener(this);
+        rulesButton.setActionCommand(Buttons.RULES.name());
+        c.insets = new Insets(0, 0, 0, 0);
+        c.ipady = 0;
+        c.ipadx = 0;
+        c.gridwidth = 1;
+        c.gridx = 6;
+        c.gridy = 0;
+        npcData.add(rulesButton, c);
+
         // ROW 2
         label = new JLabel(GLOBALS.getNPC().getName());
         label.setFont(new Font("Sans-Serif", Font.PLAIN, 18));
-        c.fill = GridBagConstraints.HORIZONTAL;
         c.ipady = 20;      //make this component tall
         c.gridwidth = GLOBALS.ACTIONS + 2;
         c.gridx = 0;
@@ -128,52 +142,52 @@ public class GameplayGUI extends JFrame implements ActionListener {
         npcData.add(label, c);
 
         // ROW 3
-        label = new JLabel("P1:", SwingConstants.CENTER);
-        c.fill = GridBagConstraints.HORIZONTAL;
+        label = new JLabel("", SwingConstants.CENTER);
+        label.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 8));
         c.gridwidth = 1;
         c.gridx = 0;
         c.gridy = 2;
         npcData.add(label, c);
 
-        npcMove1 = new JLabel(" ? ", SwingConstants.CENTER);
-        c.fill = GridBagConstraints.HORIZONTAL;
+        npcMove1 = new JLabel("?", SwingConstants.CENTER);
+        npcMove1.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         c.gridwidth = 1;
         c.gridx = 1;
         c.gridy = 2;
         npcData.add(npcMove1, c);
 
-        npcMove2 = new JLabel(" ? ", SwingConstants.CENTER);
-        c.fill = GridBagConstraints.HORIZONTAL;
+        npcMove2 = new JLabel("?", SwingConstants.CENTER);
+        npcMove2.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         c.gridwidth = 1;
         c.gridx = 2;
         c.gridy = 2;
         npcData.add(npcMove2, c);
 
-        npcMove3 = new JLabel(" ? ", SwingConstants.CENTER);
-        c.fill = GridBagConstraints.HORIZONTAL;
+        npcMove3 = new JLabel("?", SwingConstants.CENTER);
+        npcMove3.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         c.gridwidth = 1;
         c.gridx = 3;
         c.gridy = 2;
         npcData.add(npcMove3, c);
 
-        npcMove4 = new JLabel(" ? ", SwingConstants.CENTER);
-        c.fill = GridBagConstraints.HORIZONTAL;
+        npcMove4 = new JLabel("?", SwingConstants.CENTER);
+        npcMove4.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         c.gridwidth = 1;
         c.gridx = 4;
         c.gridy = 2;
         npcData.add(npcMove4, c);
 
-        npcMove5 = new JLabel(" ? ", SwingConstants.CENTER);
-        c.fill = GridBagConstraints.HORIZONTAL;
+        npcMove5 = new JLabel("?", SwingConstants.CENTER);
+        npcMove5.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         c.gridwidth = 1;
         c.gridx = 5;
         c.gridy = 2;
         npcData.add(npcMove5, c);
 
-        label = new JLabel("   ");
-        c.fill = GridBagConstraints.HORIZONTAL;
+        label = new JLabel("", SwingConstants.CENTER);
+        label.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0));
         c.gridwidth = 1;
-        c.gridx = GLOBALS.ACTIONS + 1;
+        c.gridx = 6;
         c.gridy = 2;
         npcData.add(label, c);
 
@@ -326,20 +340,116 @@ public class GameplayGUI extends JFrame implements ActionListener {
         if(GameplayManager.getInstance().checkWinCond() ||
         (GLOBALS.getTurnCount() >= GLOBALS.TURNS - 1)) {
             endGame();
-            // Create GUI
+            // Show EOG popup
             if(eogPopupGUI != null)
                 eogPopupGUI.exitPopup();
             eogPopupGUI = new EndOfGamePopupGUI();
             eogPopupGUI.setUpEOGPopupGUI();
         }
+        // If the user clicks "Rules", show the rules popup
+        if (e.getActionCommand().equals(Buttons.RULES.name())) {
+            if(rulesPopupGUI != null)
+                rulesPopupGUI.exitPopup();
+            rulesPopupGUI = new RulesPopupGUI();
+            rulesPopupGUI.setUpRulesPopupGUI();
+        // If the user clicks "Okay, got it!", close the rules popup
+        } else if (e.getActionCommand().equals(Buttons.OKAY.name())) {
+            rulesPopupGUI.exitPopup();
         // If the user clicks "New Game", start a new game and hide the popup
-        if(e.getActionCommand().equals(Buttons.NEW_GAME.name())) {
+        } else if(e.getActionCommand().equals(Buttons.NEW_GAME.name())) {
             GameManager.newGame();
             eogPopupGUI.exitPopup();
         // If the user clicks "Exit", terminate program with successful exit code
         } else if (e.getActionCommand().equals(Buttons.EXIT.name())) {
             System.exit(0);
         }
+    }
+
+    /**
+     * Popup window shown at the beginning of the game that displays the rules
+     *
+     * Created using the following resources:
+     * Oracle - How to Use GridBagLayout
+     * https://docs.oracle.com/javase/tutorial/uiswing/layout/gridbag.html
+
+     * @author Zoë Hausmann
+     */
+    private static class RulesPopupGUI extends JFrame {
+        /** Popup window */
+        private static RulesPopupGUI popupFrame;
+
+        /**
+         * Constructs empty popup with program name and sets resizeable to false
+         */
+        public RulesPopupGUI() {
+            super("Rules");
+            setResizable(false);
+        }
+
+        /**
+         * Adds content to empty content pane
+         * @param pane content pane
+         */
+        public void addComponentsToPane(final Container pane) {
+            JPanel panel = new JPanel();
+            panel.setPreferredSize(new Dimension(400, 250));
+            panel.setLayout(new GridBagLayout());
+            panel.setBorder(new EmptyBorder(20, 20, 20, 20));
+            GridBagConstraints c = new GridBagConstraints();
+            c.fill = GridBagConstraints.HORIZONTAL;
+            c.insets = new Insets(5, 5, 5, 5);
+            c.weightx = 1.0;
+            c.weighty = 1.0;
+
+            // Row 1: Rules
+            JTextArea textArea = new JTextArea();
+            textArea.setBackground(new Color(0,0,0,0));
+            textArea.setLineWrap(true);
+            textArea.setWrapStyleWord(true);
+            textArea.setText("""
+                    Guess your opponent's moves before your stamina runs out!
+
+                    The number of correct guesses in the correct position will be represented by green dots, and the number of additional correct guesses in the incorrect position will be represented by blue dots.
+
+                    If you guess the correct moves in the correct order within ten rounds, you win! If you fail to guess the pattern within ten moves, your opponent wins.""");
+            textArea.setLineWrap(true);
+            textArea.setEditable(false);
+            c.gridwidth = 3;
+            c.gridx = 0;
+            c.gridy = 0;
+            panel.add(textArea, c);
+
+            // Row 2: Button
+            JButton button = new JButton("Okay, got it!");
+            button.addActionListener(GameplayGUI.frame);
+            button.setActionCommand(Buttons.OKAY.name());
+            c.gridwidth = 1;
+            c.gridx = 1;
+            c.gridy = 1;
+            panel.add(button, c);
+
+            pane.add(panel);
+        }
+
+        /** Disposes of current popup window */
+        public void exitPopup() {
+            popupFrame.dispose();
+        }
+
+        /**
+         * Sets up content pane
+         */
+        public void setUpRulesPopupGUI() {
+            //Create and set up the window.
+            popupFrame = new RulesPopupGUI();
+            popupFrame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+            popupFrame.addComponentsToPane(popupFrame.getContentPane());
+            //Display the window.
+            popupFrame.pack();
+            popupFrame.setLocationRelativeTo(null);
+            popupFrame.setVisible(true);
+        }
+
     }
 
     /**
@@ -420,7 +530,7 @@ public class GameplayGUI extends JFrame implements ActionListener {
         public void setUpEOGPopupGUI() {
             //Create and set up the window.
             popupFrame = new EndOfGamePopupGUI();
-            popupFrame.setDefaultCloseOperation(EXIT_ON_CLOSE);
+            popupFrame.setDefaultCloseOperation(HIDE_ON_CLOSE);
             //Set up the content pane.
             popupFrame.addComponentsToPane(popupFrame.getContentPane());
             //Display the window.

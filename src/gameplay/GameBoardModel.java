@@ -19,9 +19,9 @@ public class GameBoardModel extends AbstractTableModel {
     /** List of Turns (rows) in the game */
     private final List<Turn> turnList;
     /** List of column names */
-    private final ArrayList<String> columnNames = new ArrayList<String>();
+    private final ArrayList<String> columnNames = new ArrayList<>();
     /** List of column classes */
-    private final ArrayList<Class> columnClass = new ArrayList<Class>();
+    private final ArrayList<Class> columnClass = new ArrayList<>();
 
     /**
      * Model representing the grid of Turns (rows) and Actions (cols)
@@ -33,17 +33,17 @@ public class GameBoardModel extends AbstractTableModel {
         this.turnList = turnList;
 
         // Add first column name/class
-        columnNames.add("RND");
+        columnNames.add(" ");
         columnClass.add(String.class);
 
         // Add action columns names/classes
         for(int i = 1; i <= GLOBALS.ACTIONS; i++) {
-            columnNames.add("A" + i);
+            columnNames.add("Move " + i);
             columnClass.add(String.class);
         }
 
         // Add last column name/class
-        columnNames.add("RES");
+        columnNames.add("Results");
         columnClass.add(String.class);
     }
 
@@ -101,12 +101,10 @@ public class GameBoardModel extends AbstractTableModel {
      * @param rowIndex row of the value
      * @param columnIndex column of the value
      * @param value value to be set
-     * @return the value that was set
      */
-    public Object setValueAt(int rowIndex, int columnIndex, String value) {
+    public void setValueAt(int rowIndex, int columnIndex, String value) {
         Turn turn = turnList.get(rowIndex);
         turn.setValueAt(value, columnIndex);
         turnList.set(rowIndex, turn);
-        return turnList.get(rowIndex).getValueAt(columnIndex);
     }
 }
