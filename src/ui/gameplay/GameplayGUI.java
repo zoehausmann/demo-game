@@ -339,6 +339,7 @@ public class GameplayGUI extends JFrame implements ActionListener {
      */
     private void endGame() {
         confirmButton.setEnabled(false);
+        rulesButton.setEnabled(false);
         ArrayList<Action> actions = GameplayManager.getInstance().npcActions();
         npcMove1.setText(actions.get(0).toString());
         npcMove2.setText(actions.get(1).toString());

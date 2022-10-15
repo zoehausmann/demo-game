@@ -119,17 +119,12 @@ public class GameplayManager implements ActionListener  {
         int incorrect = 0;
 
         // Make copies of player and NPC actions
-        ArrayList<Action> npcCopy = new ArrayList<>();
-        for (Action a : npcActions) { npcCopy.add(a); }
         ArrayList<Action> playerCopy = gui.getActions();
 
         // Check number correct
-        for (int i = 0; i < npcCopy.size(); i++) {
-            if (npcCopy.get(i).compareTo(playerCopy.get(i)) == 0) {
+        for (int i = 0; i < npcActions.size(); i++) {
+            if (npcActions.get(i).compareTo(playerCopy.get(i)) == 0) {
                 correct++;
-                npcCopy.remove(i);
-                playerCopy.remove(i);
-                i--;
             }
         }
 

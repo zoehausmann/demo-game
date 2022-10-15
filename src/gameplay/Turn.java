@@ -13,10 +13,10 @@ import java.util.ArrayList;
  * @author Zoë Hausmann
  */
 public class Turn {
-    /** Round number */
-    private int roundNumber = 0;
+
     /** List containing Round label and actions */
     private final ArrayList<String> actions;
+    private int roundNumber;
 
     /**
      * Creates a new Turn object with a Round name and placeholder actions.
@@ -25,10 +25,8 @@ public class Turn {
     public Turn(int roundNumber) {
         this.roundNumber = roundNumber;
         actions = new ArrayList<>();
-        actions.add("ROUND " + roundNumber);
-        for (int i = 1; i <= GLOBALS.ACTIONS; i++)
-            actions.add("○");
-        actions.add("");
+        for (int i = 0; i < GLOBALS.ACTIONS + 2; i++)
+            actions.add("");
     }
 
     /**
@@ -44,18 +42,8 @@ public class Turn {
      * Sets given value at given index.
      * @param value value to be set
      * @param index index of value to be set
-     * @return the updated value at the given index
      */
-    public String setValueAt(String value, int index) {
+    public void setValueAt(String value, int index) {
         actions.set(index, value);
-        return actions.get(index);
-    }
-
-    /**
-     * Returns the round number of the given Turn.
-     * @return the round number of the given Turn
-     */
-    public int getRoundNumber() {
-        return roundNumber;
     }
 }
