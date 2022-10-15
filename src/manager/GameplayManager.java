@@ -106,45 +106,11 @@ public class GameplayManager implements ActionListener  {
 
     public boolean checkWinCond() {
         ArrayList<Action> playerActions = gui.getActions();
+        int n = 0;
         for (int i = 0; i < GLOBALS.ACTIONS; i++)
-            if (npcActions.get(i).compareTo(playerActions.get(i)) != 0)
+            if (playerActions.get(i) != npcActions.get(i))
                 return false;
         return true;
-    }
-
-    public Integer[] countNumberCorrect() {
-        // Counter
-        int correct = 0;
-        int partial = 0;
-        int incorrect = 0;
-
-        // Make copies of player and NPC actions
-        ArrayList<Action> playerCopy = gui.getActions();
-
-        // Check number correct
-        for (int i = 0; i < npcActions.size(); i++) {
-            if (npcActions.get(i).compareTo(playerCopy.get(i)) == 0) {
-                correct++;
-            }
-        }
-
-//        // Check number partially correct
-//        for(int i = 0; i < npcCopy.size(); i++)
-//            for(int j = 0; j < playerCopy.size(); j++) {
-//                if(npcCopy.get(i).compareTo(playerCopy.get(j)) == 0) {
-//                    playerCopy.remove(j);
-//                    npcCopy.remove(i);
-//                    partial++;
-//                    i--;
-//                    j--;
-//                }
-//                continue;
-//            }
-
-//        incorrect = npcCopy.size();
-        incorrect = 5 - correct;
-        Integer[] totals = {correct, partial, incorrect};
-        return totals;
     }
 
     private void setTableValues() {
@@ -154,20 +120,19 @@ public class GameplayManager implements ActionListener  {
             model.setValueAt(GLOBALS.getTurnCount(), i + 1, playerActions.get(i).toString());
         }
 
-        // Count correct, partial, and incorrect answers
-        Integer[] totals = countNumberCorrect();
-
-        // Create results string based on totals
+        // Create results string of correct an incorrect answers
         String result = "<html>";
-        result += "<font color=green>";
-        for(int i = 0; i < totals[0]; i++)
-            result += "● ";
-        result += "</font><font color=blue>";
-        for(int i = 0; i < totals[1]; i++)
-            result += "● ";
-        result += "</font><font color=black>";
-        for(int i = 0; i < totals[2]; i++)
-            result += "○ ";
+        for (int i = 0; i < GLOBALS.ACTIONS; i++) {
+            System.out.println(i);
+            System.out.println(npcActions.get(i));
+            System.out.println(playerActions.get(i));
+            System.out.println(gui.getActions().get(i));
+            if (npcActions.get(i).compareTo(gui.getActions().get(i)) == 0) {
+                result += "<font color=green>● ";
+            } else {
+                result += "</font><font color=black>○ ";
+            }
+        }
         result += "</font></html>";
 
         // If player runs out of turns, results string is all red circles
