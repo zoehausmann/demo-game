@@ -6,6 +6,7 @@ import manager.GameplayManager;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.TableCellRenderer;
 import java.awt.*;
 
 /**
@@ -17,18 +18,29 @@ import java.awt.*;
  * Code Java - How to make Editable JTable in Java Swing
  * https://www.codejava.net/java-se/swing/editable-jtable-example
  *
+ * https://docs.oracle.com/javase/tutorial/uiswing/components/table.html#renderer
+ *
  * @author Zoë Hausmann
  */
 public class GameBoardPanel extends JPanel {
     private static final int ROW_HEIGHT = 30;
-    private GameBoardModel model;
+    private final GameBoardModel model;
 
     public GameBoardPanel() {
         // Get the model
         model = GameplayManager.getInstance().getModel();
 
+        TableCellRenderer colorRenderer = new ColorRenderer();
+
         // Create the table
-        JTable table = new JTable(model);
+        JTable table = new JTable(model) {
+            public TableCellRenderer getCellRenderer(int row, int column) {
+                if ((column == 0)) {
+                    return colorRenderer;
+                }
+                return super.getCellRenderer(row, column);
+            }
+        };
         table.getTableHeader().setReorderingAllowed(false);
         table.setFocusable(false);
         table.setRowSelectionAllowed(false);
@@ -36,6 +48,7 @@ public class GameBoardPanel extends JPanel {
 
         // Center all text
         DefaultTableCellRenderer cellRenderer = new DefaultTableCellRenderer();
+        cellRenderer.setBackground(GLOBALS.FG_COLOR);
         cellRenderer.setHorizontalAlignment(JLabel.CENTER);
         table.setDefaultRenderer(String.class, cellRenderer);
 
@@ -53,7 +66,23 @@ public class GameBoardPanel extends JPanel {
         this.add(scrollPane);
     }
 
-    public void setModel(GameBoardModel model) {
-        this.model = model;
+    /**
+     * Custom table cell renderer for first column of table
+     */
+    public static class ColorRenderer extends JLabel implements TableCellRenderer {
+        public ColorRenderer() {
+            setOpaque(true); //MUST do this for background to show up.
+        }
+
+        public Component getTableCellRendererComponent(
+                JTable table, Object color,
+                boolean isSelected, boolean hasFocus,
+                int row, int column) {
+            setBackground(GLOBALS.BG_COLOR);
+            setForeground(Color.WHITE);
+            setText("ROUND " + (row + 1));
+            setHorizontalAlignment(JLabel.CENTER);
+            return this;
+        }
     }
 }

@@ -25,7 +25,7 @@ public class Turn {
     public Turn(int roundNumber) {
         this.roundNumber = roundNumber;
         actions = new ArrayList<>();
-        actions.add("Round " + roundNumber);
+        actions.add("ROUND " + roundNumber);
         for (int i = 1; i <= GLOBALS.ACTIONS; i++)
             actions.add("○");
         actions.add("");

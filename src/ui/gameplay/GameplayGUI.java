@@ -100,6 +100,8 @@ public class GameplayGUI extends JFrame implements ActionListener {
     public void addComponentsToPane(final Container pane) {
         // CREATE NPC PANEL
         JPanel npcData = new JPanel();
+        npcData.setBackground(GLOBALS.BG_COLOR);
+        npcData.setForeground(Color.WHITE);
         npcData.setBorder(BorderFactory.createEmptyBorder(20,25,0,25));
         npcData.setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
@@ -114,89 +116,99 @@ public class GameplayGUI extends JFrame implements ActionListener {
         ImageIcon npcImageIcon = new ImageIcon(new ImageIcon(GLOBALS.getNPC().getPfp()).getImage()
                 .getScaledInstance(100, 100, Image.SCALE_DEFAULT));
         label.setIcon(npcImageIcon);
+        label.setBorder(BorderFactory.createLineBorder(new Color(0,0,0,0)));
         c.ipady = 10;
         c.gridwidth = 6;
         c.gridx = 0;
         c.gridy = 0;
         npcData.add(label, c);
 
-        rulesButton = new JButton("Rules");
-        rulesButton.setMargin(new Insets(2,2,2,2));
-        rulesButton.addActionListener(this);
-        rulesButton.setActionCommand(Buttons.RULES.name());
-        c.insets = new Insets(0, 0, 0, 0);
-        c.ipady = 0;
-        c.ipadx = 0;
-        c.gridwidth = 1;
-        c.gridx = 6;
-        c.gridy = 0;
-        npcData.add(rulesButton, c);
-
         // ROW 2
         label = new JLabel(GLOBALS.getNPC().getName());
+        label.setForeground(Color.WHITE);
         label.setFont(new Font("Sans-Serif", Font.PLAIN, 18));
-        c.ipady = 20;      //make this component tall
+        label.setBorder(BorderFactory.createLineBorder(new Color(0,0,0,0)));
+        c.fill = GridBagConstraints.HORIZONTAL;
         c.gridwidth = GLOBALS.ACTIONS + 2;
         c.gridx = 0;
         c.gridy = 1;
         npcData.add(label, c);
 
-        // ROW 3
-        label = new JLabel("", SwingConstants.CENTER);
-        label.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 8));
-        c.gridwidth = 1;
+        // ROW 2
+        label = new JLabel(GLOBALS.getNPC().getOrigin());
+        label.setForeground(Color.WHITE);
+        label.setFont(new Font("Sans-Serif", Font.PLAIN, 12));
+        label.setBorder(BorderFactory.createLineBorder(new Color(0,0,0,0)));
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.gridwidth = GLOBALS.ACTIONS + 2;
         c.gridx = 0;
         c.gridy = 2;
         npcData.add(label, c);
 
+        // ROW 3
+        label = new JLabel("", SwingConstants.CENTER);
+        label.setForeground(Color.WHITE);
+        c.insets = new Insets(0,5,0,5);
+        c.gridwidth = 1;
+        c.gridx = 0;
+        c.gridy = 3;
+        npcData.add(label, c);
+
         npcMove1 = new JLabel("?", SwingConstants.CENTER);
-        npcMove1.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        npcMove1.setForeground(Color.WHITE);
+        npcMove1.setBorder(BorderFactory.createLineBorder(Color.WHITE));
         c.gridwidth = 1;
         c.gridx = 1;
-        c.gridy = 2;
+        c.gridy = 3;
         npcData.add(npcMove1, c);
 
         npcMove2 = new JLabel("?", SwingConstants.CENTER);
-        npcMove2.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        npcMove2.setForeground(Color.WHITE);
+        npcMove2.setBorder(BorderFactory.createLineBorder(Color.WHITE));
         c.gridwidth = 1;
         c.gridx = 2;
-        c.gridy = 2;
+        c.gridy = 3;
         npcData.add(npcMove2, c);
 
         npcMove3 = new JLabel("?", SwingConstants.CENTER);
-        npcMove3.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        npcMove3.setForeground(Color.WHITE);
+        npcMove3.setBorder(BorderFactory.createLineBorder(Color.WHITE));
         c.gridwidth = 1;
         c.gridx = 3;
-        c.gridy = 2;
+        c.gridy = 3;
         npcData.add(npcMove3, c);
 
         npcMove4 = new JLabel("?", SwingConstants.CENTER);
-        npcMove4.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        npcMove4.setForeground(Color.WHITE);
+        npcMove4.setBorder(BorderFactory.createLineBorder(Color.WHITE));
         c.gridwidth = 1;
         c.gridx = 4;
-        c.gridy = 2;
+        c.gridy = 3;
         npcData.add(npcMove4, c);
 
         npcMove5 = new JLabel("?", SwingConstants.CENTER);
-        npcMove5.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        npcMove5.setForeground(Color.WHITE);
+        npcMove5.setBorder(BorderFactory.createLineBorder(Color.WHITE));
         c.gridwidth = 1;
         c.gridx = 5;
-        c.gridy = 2;
+        c.gridy = 3;
         npcData.add(npcMove5, c);
 
-        label = new JLabel("", SwingConstants.CENTER);
-        label.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0));
+        label = new JLabel("");
         c.gridwidth = 1;
         c.gridx = 6;
-        c.gridy = 2;
+        c.gridy = 3;
         npcData.add(label, c);
 
         // CREATE TURN PANEL
         JPanel turnTable = new GameBoardPanel();
+        turnTable.setBackground(GLOBALS.BG_COLOR);
         turnTable.setBorder(new EmptyBorder(10, 20, 10, 20));
 
         // CREATE PLAYER PANEL
         JPanel playerData = new JPanel();
+        playerData.setBackground(GLOBALS.BG_COLOR);
+        playerData.setForeground(Color.WHITE);
         playerData.setLayout(new GridBagLayout());
         GridBagConstraints d = new GridBagConstraints();
         d.fill = GridBagConstraints.HORIZONTAL;
@@ -205,15 +217,10 @@ public class GameplayGUI extends JFrame implements ActionListener {
 
         JPanel grid = new JPanel();
         grid.setLayout(new GridLayout(0, GLOBALS.ACTIONS + 2));
+        grid.setBackground(GLOBALS.BG_COLOR);
 
-        // Row 1: Move Labels
-        grid.add(new JLabel(" "));
-        for (int i = 1; i <= GLOBALS.ACTIONS; i++)
-            grid.add(new JLabel("Move " + i, SwingConstants.CENTER));
-        grid.add(new JLabel(" "));
-
-        // Row 2: JComboBoxes
-        grid.add(new JLabel(" "));
+        label = new JLabel("");
+        grid.add(label);
 
         playerMove1 = new JComboBox<>();
         playerMove1.setModel(new DefaultComboBoxModel<>(gameplay.Action.values()));
@@ -247,7 +254,7 @@ public class GameplayGUI extends JFrame implements ActionListener {
         d.gridy = 0;
         playerData.add(grid, d);
 
-        // Row 3: Player Image
+        // Row 2: Player Image
         label = new JLabel("", SwingConstants.RIGHT);
         ImageIcon playerImageIcon = new ImageIcon(new ImageIcon(GLOBALS.getPlayer().getPfp()).getImage()
                 .getScaledInstance(100, 100, Image.SCALE_SMOOTH));
@@ -258,9 +265,10 @@ public class GameplayGUI extends JFrame implements ActionListener {
         d.gridy = 1;
         playerData.add(label, d);
 
-        // Row 4: Player Name
+        // Row 3: Player Name
         label = new JLabel(GLOBALS.getPlayer().getName(), SwingConstants.RIGHT);
         label.setFont(new Font("Sans-Serif", Font.PLAIN, 18));
+        label.setForeground(Color.WHITE);
         d.gridwidth = 1;
         d.gridx = 0;
         d.gridy = 2;
@@ -270,6 +278,19 @@ public class GameplayGUI extends JFrame implements ActionListener {
         pane.add(npcData, BorderLayout.NORTH);
         pane.add(turnTable, BorderLayout.CENTER);
         pane.add(playerData, BorderLayout.SOUTH);
+
+        // Row 4: Rules button
+        rulesButton = new JButton("RULES");
+        rulesButton.setForeground(GLOBALS.FG_COLOR);
+        rulesButton.setBackground(GLOBALS.BG_COLOR);
+        rulesButton.setBorder(BorderFactory.createLineBorder(new Color(0,0,0,0)));
+        rulesButton.addActionListener(this);
+        rulesButton.setActionCommand(Buttons.RULES.name());
+        d.fill = GridBagConstraints.RELATIVE;
+        d.gridwidth = 1;
+        d.gridx = 0;
+        d.gridy = 3;
+        playerData.add(rulesButton, d);
     }
 
     /**
