@@ -4,7 +4,6 @@ import gameplay.Action;
 import gameplay.GameBoardModel;
 import gameplay.GLOBALS;
 import gameplay.Turn;
-import ui.gameplay.Buttons;
 import ui.gameplay.GameplayGUI;
 
 import java.awt.event.ActionEvent;
@@ -30,16 +29,19 @@ public class GameplayManager implements ActionListener  {
     private ArrayList<Action> npcActions;
     /** Live model of the game board */
     private GameBoardModel model;
+    /** Game GUI */
     static GameplayGUI gui;
+    /** Win condition (false until player wins) */
+    private boolean win;
 
 
     // GAME MANAGER SINGLETON PATTERN
-    public static volatile GameplayManager instance = null;
-    /** Private constructor for one-time GameManager creation. */
-    private GameplayManager() { /** Nothing to do */ }
-    /** Creates instance at class loading time. */
+    public static volatile GameplayManager instance;
+    /* Private constructor for one-time GameManager creation. */
+    private GameplayManager() { /* Nothing to do */ }
+    /* Creates instance at class loading time. */
     static { instance = new GameplayManager(); }
-    /** Static instance method */
+    /* Static instance method */
     public static GameplayManager getInstance() { return instance; }
 
     // GETTERS AND SETTERS
@@ -53,8 +55,11 @@ public class GameplayManager implements ActionListener  {
 
     // GAMEPLAY
     public void setup() {
-        // Generates NPC actions and adds them to npcActions list
-        npcActions = npcActions();
+        // Sets win condition to false
+        win = false;
+
+        // Creates NPC actions and adds them to npcActions list
+        createNPCActions();
 
         // Reset turn count
         GLOBALS.resetTurnCount();
@@ -73,9 +78,9 @@ public class GameplayManager implements ActionListener  {
     }
 
     /**
-     * Not encapsulated
+     * Initializes npcActions ArrayList and adds five NPC Actions
      */
-    public ArrayList<Action> npcActions() {
+    private void createNPCActions() {
         npcActions = new ArrayList<>();
         Action temp;
         for (int i = 0; i < GLOBALS.ACTIONS; i++) {
@@ -101,16 +106,33 @@ public class GameplayManager implements ActionListener  {
             }
             npcActions.add(temp);
         }
+    }
+
+    /**
+     * Returns list of NPC Actions
+     * @return list of NPC Actions
+     */
+    public ArrayList<Action> getNPCActions() {
         return npcActions;
     }
 
-    public boolean checkWinCond() {
+    /**
+     * Returns whether player has won
+     * @return whether player has won
+     */
+    public boolean getWinCond() {
+        return win;
+    }
+
+    /**
+     * Checks the win conditions after every player turn.
+     */
+    public void checkWinCond() {
         ArrayList<Action> playerActions = gui.getActions();
-        int n = 0;
         for (int i = 0; i < GLOBALS.ACTIONS; i++)
-            if (playerActions.get(i) != npcActions.get(i))
-                return false;
-        return true;
+            if (playerActions.get(i).compareTo(npcActions.get(i)) != 0)
+                return;
+        win = true;
     }
 
     private void setTableValues() {
@@ -120,13 +142,12 @@ public class GameplayManager implements ActionListener  {
             model.setValueAt(GLOBALS.getTurnCount(), i + 1, playerActions.get(i).toString());
         }
 
-        // Create results string of correct an incorrect answers
+        // Create results string of correct and incorrect answers
         String result = "<html>";
         for (int i = 0; i < GLOBALS.ACTIONS; i++) {
             System.out.println(i);
             System.out.println(npcActions.get(i));
             System.out.println(playerActions.get(i));
-            System.out.println(gui.getActions().get(i));
             if (npcActions.get(i).compareTo(gui.getActions().get(i)) == 0) {
                 result += "<font color=green>● ";
             } else {
@@ -135,8 +156,11 @@ public class GameplayManager implements ActionListener  {
         }
         result += "</font></html>";
 
+        // Checks win condition
+        checkWinCond();
+
         // If player runs out of turns, results string is all red circles
-        if(GLOBALS.getTurnCount() == (GLOBALS.TURNS - 1) && !checkWinCond())
+        if(GLOBALS.getTurnCount() == (GLOBALS.TURNS - 1) && !getWinCond())
             result = "<html><font color=red>● ● ● ● ● </font></html>>";
 
         //Add result string to table

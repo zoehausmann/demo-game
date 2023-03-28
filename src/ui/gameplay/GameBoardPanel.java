@@ -71,7 +71,7 @@ public class GameBoardPanel extends JPanel {
      */
     public static class ColorRenderer extends JLabel implements TableCellRenderer {
         public ColorRenderer() {
-            setOpaque(true); //MUST do this for background to show up.
+            setOpaque(true); // MUST do this for background to show up.
         }
 
         public Component getTableCellRendererComponent(

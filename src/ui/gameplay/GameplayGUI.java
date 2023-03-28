@@ -340,7 +340,7 @@ public class GameplayGUI extends JFrame implements ActionListener {
     private void endGame() {
         confirmButton.setEnabled(false);
         rulesButton.setEnabled(false);
-        ArrayList<Action> actions = GameplayManager.getInstance().npcActions();
+        ArrayList<Action> actions = GameplayManager.getInstance().getNPCActions();
         npcMove1.setText(actions.get(0).toString());
         npcMove2.setText(actions.get(1).toString());
         npcMove3.setText(actions.get(2).toString());
@@ -358,8 +358,9 @@ public class GameplayGUI extends JFrame implements ActionListener {
      */
     @Override
     public void actionPerformed(ActionEvent e) {
+        GameplayManager.getInstance().checkWinCond();
         // If all turns completed or player guesses correctly, end the game
-        if(GameplayManager.getInstance().checkWinCond() ||
+        if(GameplayManager.getInstance().getWinCond() ||
         (GLOBALS.getTurnCount() >= GLOBALS.TURNS - 1)) {
             endGame();
             // Show EOG popup
@@ -512,7 +513,7 @@ public class GameplayGUI extends JFrame implements ActionListener {
 
             // Row 1: Message
             JLabel label = new JLabel();
-            if (GameplayManager.getInstance().checkWinCond())
+            if (GameplayManager.getInstance().getWinCond())
                 label.setText("Congratulations! You won! Play again?");
             else
                 label.setText("Better luck next time! Play again?");
