@@ -145,9 +145,6 @@ public class GameplayManager implements ActionListener  {
         // Create results string of correct and incorrect answers
         String result = "<html>";
         for (int i = 0; i < GLOBALS.ACTIONS; i++) {
-            System.out.println(i);
-            System.out.println(npcActions.get(i));
-            System.out.println(playerActions.get(i));
             if (npcActions.get(i).compareTo(gui.getActions().get(i)) == 0) {
                 result += "<font color=green>● ";
             } else {
